@@ -1,0 +1,92 @@
+{
+  "skill_name": "plan",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "changelog-skill",
+      "prompt": "plan issue #1",
+      "expected_output": "A structured technical plan for the /changelog skill with architecture decisions, modules table, phases (Phase 1 as a tracer bullet), and optionally a project rules check. Posted as a GitHub comment on issue #1.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "has-phases",
+          "description": "Plan contains a Phases section with at least 2 phases"
+        },
+        {
+          "id": "has-tracer-bullet",
+          "description": "Phase 1 is explicitly described as a tracer bullet or thin vertical slice"
+        },
+        {
+          "id": "has-modules",
+          "description": "Plan contains a Modules table with at least one row"
+        },
+        {
+          "id": "no-open-questions",
+          "description": "Plan contains no unresolved markers like [?], [UNKNOWN], or [TBD]"
+        },
+        {
+          "id": "references-codebase",
+          "description": "Plan references specific files, packages, or patterns found in the codebase (not just generic placeholders)"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "review-skill",
+      "prompt": "/plan #2 — I want to start implementing the PR review skill",
+      "expected_output": "A structured technical plan for the /review skill including interface contracts (the review comment structure from the spec), modules, and phases. Posted as a GitHub comment on issue #2.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "has-phases",
+          "description": "Plan contains a Phases section with at least 2 phases"
+        },
+        {
+          "id": "has-tracer-bullet",
+          "description": "Phase 1 is explicitly described as a tracer bullet or thin vertical slice"
+        },
+        {
+          "id": "has-interface-contracts",
+          "description": "Plan contains an Interface Contracts section (since the spec explicitly defines a review comment structure)"
+        },
+        {
+          "id": "has-modules",
+          "description": "Plan contains a Modules table with at least one row"
+        },
+        {
+          "id": "no-open-questions",
+          "description": "Plan contains no unresolved markers like [?], [UNKNOWN], or [TBD]"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "sprint-summary",
+      "prompt": "I just finished writing the spec in issue #3, can you plan the implementation for me?",
+      "expected_output": "A structured technical plan for the /sprint-summary skill with dual-platform publishing (GitHub and Confluence), phases, and modules. Posted as a GitHub comment on issue #3.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "has-phases",
+          "description": "Plan contains a Phases section with at least 2 phases"
+        },
+        {
+          "id": "has-tracer-bullet",
+          "description": "Phase 1 is explicitly described as a tracer bullet or thin vertical slice"
+        },
+        {
+          "id": "has-modules",
+          "description": "Plan contains a Modules table with at least one row"
+        },
+        {
+          "id": "no-open-questions",
+          "description": "Plan contains no unresolved markers like [?], [UNKNOWN], or [TBD]"
+        },
+        {
+          "id": "addresses-dual-platform",
+          "description": "Plan addresses the dual publishing destination (GitHub and Confluence) mentioned in the spec"
+        }
+      ]
+    }
+  ]
+}

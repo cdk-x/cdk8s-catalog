@@ -1,0 +1,71 @@
+{
+  "skill_name": "conventional-commits",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to commit, I have changes in src/auth/login.ts and src/api/routes/users.ts",
+      "expected_output": "Should propose two separate commits, one with scope 'auth' and one with scope 'api', each with appropriate type. Should never combine them into a single commit.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "commit only auth changes",
+      "expected_output": "Should detect Mode 2 (single scope), filter to only auth-related files, ignore all other modified files, and propose commits only for the auth scope.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I added a new feature in packages/payments with tests and docs. I want to commit.",
+      "expected_output": "Should split into 3 ordered commits: feat(payments) first, then test(payments), then docs(payments). Should stage files individually, not use git add -A.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "commit auth and api",
+      "expected_output": "Should detect Mode 3 (multiple scopes), filter to only auth and api files, and propose separate commits per scope.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "I changed .github/workflows/ci.yml and package.json, can you commit these?",
+      "expected_output": "Should assign both files to a root-level scope (e.g., 'repo' or project name). Should determine if they are one logical change (single commit) or two (separate commits). Type should be 'ci' for the workflow file and 'chore' for package.json if they are independent changes.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "review my changes before committing, I have modifications across auth, api, and payments",
+      "expected_output": "Should operate in dry-run mode: analyze changes, propose a commit plan grouped by scope, but NOT execute any commits. Should clearly state no commits were made.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "I have a small personal project with just 3 files, I changed utils.ts and index.ts. Can you commit?",
+      "expected_output": "Should NOT force scopes on a simple repo. Should commit without scope or with a minimal scope. Format: 'fix: description' or 'feat: description' is acceptable.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "I want to set up commit scopes for my monorepo that uses pnpm workspaces with packages/auth, packages/api, and packages/shared",
+      "expected_output": "Should explain that scopes are auto-discovered from directory names (auth, api, shared). Should suggest documenting them in the repo's AGENTS.md or claude.md so they're always in context. Should not create any config file.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "I modified src/api/handler.ts but the file has two different changes: a bug fix for validation and a new endpoint. How do I commit them separately?",
+      "expected_output": "Should explain using git add -p with 's' to split hunks and 'e' to edit hunks for line-level control. Should propose two commits: fix(api) for the validation fix and feat(api) for the new endpoint. Should walk through the patch mode workflow.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "I'm on branch feat/142-oauth-pkce and I want to commit my changes. The repo uses GitHub Issues.",
+      "expected_output": "Should detect issue #142 from the branch name, suggest adding 'Refs: #142' to commit footers, and recommend using 'Closes #142' in the PR description instead of individual commits.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "We use Jira with project key MYAPP. I want to set up issue tracking for our commits and PRs.",
+      "expected_output": "Should explain that Jira issues are detected automatically from branch names containing the MYAPP-XXX pattern. Should explain the branch naming convention (feature/MYAPP-123-description) and how to reference issues in footers (Refs: MYAPP-123). Should check for available MCP tools for Jira and mention them if present.",
+      "files": []
+    }
+  ]
+}
