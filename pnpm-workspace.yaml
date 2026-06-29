@@ -1,6 +1,8 @@
 packages:
-  - "packages/*"
+  - 'packages/*'
 
 autoInstallPeers: true
 allowBuilds:
+  '@swc/core': true
   nx: true
+  unrs-resolver: true
