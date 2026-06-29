@@ -16,6 +16,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@cdk8s-catalog/source"]
+    "customConditions": ["source"]
   }
 }
