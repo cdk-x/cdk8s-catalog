@@ -5,6 +5,9 @@
   "references": [
     {
       "path": "./packages/metric-server"
+    },
+    {
+      "path": "./packages/cdk8s-core"
     }
   ]
 }

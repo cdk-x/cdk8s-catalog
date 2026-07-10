@@ -1,0 +1,9 @@
+{
+  "name": "@cdk-x/cdk8s-core",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/cdk8s-core/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project @cdk-x/cdk8s-core --web",
+  "targets": {}
+}
