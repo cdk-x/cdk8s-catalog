@@ -1,0 +1,12 @@
+{
+  "name": "@cdk-x/metric-server-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/main.js",
+  "dependencies": {
+    "@cdk-x/metric-server": "latest",
+    "cdk8s": "^2.70.82",
+    "tslib": "^2.3.0"
+  }
+}

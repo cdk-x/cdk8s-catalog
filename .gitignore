@@ -46,3 +46,7 @@ Thumbs.db
 
 .nx/polygraph
 test-output
+
+# e2e projects install from the local Verdaccio registry, not the pnpm workspace
+e2e/**/package-lock.json
+e2e/**/manifests

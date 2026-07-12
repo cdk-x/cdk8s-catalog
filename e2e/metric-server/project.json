@@ -1,0 +1,27 @@
+{
+  "name": "metric-server-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "e2e/metric-server/src",
+  "projectType": "library",
+  "tags": ["e2e"],
+  "targets": {
+    "install-from-registry": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "e2e/metric-server",
+        "command": "npm install --registry=http://localhost:4873"
+      }
+    },
+    "build": {
+      "dependsOn": ["install-from-registry"]
+    },
+    "synth": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "cwd": "e2e/metric-server",
+        "command": "node dist/main.js"
+      }
+    }
+  }
+}
