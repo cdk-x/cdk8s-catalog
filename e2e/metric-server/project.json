@@ -7,16 +7,19 @@
   "targets": {
     "install-from-registry": {
       "executor": "nx:run-commands",
+      "cache": false,
       "options": {
         "cwd": "e2e/metric-server",
-        "command": "npm install --registry=http://localhost:4873"
+        "command": "rm -f package-lock.json && npm install --registry=http://localhost:4873"
       }
     },
     "build": {
+      "cache": false,
       "dependsOn": ["install-from-registry"]
     },
     "synth": {
       "executor": "nx:run-commands",
+      "cache": false,
       "dependsOn": ["build"],
       "options": {
         "cwd": "e2e/metric-server",
