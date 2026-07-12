@@ -1,5 +1,6 @@
 import { Chart, ChartProps } from 'cdk8s';
 import { Construct, IConstruct } from 'constructs';
+import { CatalogLibraryInfo } from './package-info.js';
 
 /**
  * Kubernetes recommended common label keys.
@@ -12,6 +13,16 @@ export const CommonLabels = {
   COMPONENT: 'app.kubernetes.io/component',
   PART_OF: 'app.kubernetes.io/part-of',
   MANAGED_BY: 'app.kubernetes.io/managed-by',
+} as const;
+
+/**
+ * Labels specific to the @cdk-x cdk8s-catalog, identifying which catalog
+ * library (and published version) defines a chart — analogous to Helm's
+ * `helm.sh/chart`.
+ */
+export const CatalogLabels = {
+  LIBRARY_NAME: 'cdk8s-catalog/library-name',
+  LIBRARY_VERSION: 'cdk8s-catalog/library-version',
 } as const;
 
 export interface CatalogChartProps extends ChartProps {
@@ -35,6 +46,13 @@ export interface CatalogChartProps extends ChartProps {
    * @default omitted when not provided
    */
   readonly partOf?: string;
+  /**
+   * The specific @cdk-x catalog library (name + version) that defines this
+   * chart. Typically `readCatalogLibraryInfo(import.meta.url)` called from the
+   * root chart class.
+   * @default omitted when not provided
+   */
+  readonly catalogLibrary?: CatalogLibraryInfo;
 }
 
 /**
@@ -54,8 +72,15 @@ export class CatalogChart extends Chart {
   public readonly releaseName: string;
 
   constructor(scope: Construct, id: string, props: CatalogChartProps = {}) {
-    const { releaseName, appName, appVersion, partOf, labels, ...chartProps } =
-      props;
+    const {
+      releaseName,
+      appName,
+      appVersion,
+      partOf,
+      catalogLibrary,
+      labels,
+      ...chartProps
+    } = props;
     const resolvedReleaseName = releaseName ?? id;
 
     super(scope, id, {
@@ -66,6 +91,12 @@ export class CatalogChart extends Chart {
         [CommonLabels.MANAGED_BY]: 'cdk8s',
         ...(appVersion ? { [CommonLabels.VERSION]: appVersion } : {}),
         ...(partOf ? { [CommonLabels.PART_OF]: partOf } : {}),
+        ...(catalogLibrary
+          ? {
+              [CatalogLabels.LIBRARY_NAME]: catalogLibrary.name,
+              [CatalogLabels.LIBRARY_VERSION]: catalogLibrary.version,
+            }
+          : {}),
         ...labels, // explicit labels always win over the computed defaults
       },
     });
