@@ -1,1 +1,1 @@
-export * from './lib/cdk8s-core.js';
+export * from './lib/catalog-chart.js';
