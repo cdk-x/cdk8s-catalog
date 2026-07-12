@@ -1,0 +1,27 @@
+{
+  "name": "@cdk-x/cdk8s-catalog",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "local-registry": {
+      "executor": "@nx/js:verdaccio",
+      "options": {
+        "port": 4873,
+        "config": ".verdaccio/config.yml",
+        "storage": "tmp/local-registry/storage"
+      }
+    },
+    "release-local": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "nx release version --git-commit=false --git-tag=false --git-push=false --first-release",
+          "node tools/release-local-changelog.mjs",
+          "node tools/release-local-unpublish.mjs",
+          "nx release publish --registry=http://localhost:4873",
+          "node tools/release-local-cleanup.mjs"
+        ]
+      }
+    }
+  }
+}
