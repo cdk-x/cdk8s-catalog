@@ -25,6 +25,23 @@
         "cwd": "e2e/metric-server",
         "command": "node dist/main.js"
       }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "dependsOn": ["synth"],
+      "options": {
+        "cwd": "e2e/metric-server",
+        "command": "kubectl --context k3d-cdk8s-catalog apply -f manifests/"
+      }
+    },
+    "uninstall": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "cwd": "e2e/metric-server",
+        "command": "kubectl --context k3d-cdk8s-catalog delete -f manifests/ --ignore-not-found"
+      }
     }
   }
 }
