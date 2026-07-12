@@ -17,6 +17,10 @@ export class MetricServerServiceAccount extends Construct {
     const { releaseName } = CatalogChart.of(this);
     this.serviceAccount = new ServiceAccount(this, 'ServiceAccount', {
       metadata: { name: releaseName },
+      // metrics-server authenticates to the API server using its own SA
+      // token (delegated authentication) - without it, the pod panics with
+      // "failed to get delegated authentication kubeconfig" on startup.
+      automountToken: true,
     });
   }
 }
