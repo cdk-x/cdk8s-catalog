@@ -46,6 +46,26 @@
       "options": {
         "command": "k3d cluster delete --config k3d.yaml"
       }
+    },
+    "start-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": true,
+        "commands": [
+          "mkdir -p tmp/local-registry && nohup nx local-registry > tmp/local-registry/dev.log 2>&1 &",
+          "nx k3d-cluster-start 2>/dev/null || nx k3d-cluster-create"
+        ]
+      }
+    },
+    "stop-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": true,
+        "commands": [
+          "nx k3d-cluster-stop",
+          "pkill -f verdaccio || true"
+        ]
+      }
     }
   }
 }
