@@ -47,8 +47,16 @@
     }
   ],
   "release": {
+    "projectsRelationship": "independent",
     "version": {
+      "conventionalCommits": true,
       "preVersionCommand": "pnpm dlx nx run-many -t build"
+    },
+    "changelog": {
+      "workspaceChangelog": false,
+      "projectChangelogs": {
+        "createRelease": false
+      }
     }
   },
   "targetDefaults": {
