@@ -1,4 +1,4 @@
-import { Chart, ChartProps } from 'cdk8s';
+import { ApiObjectMetadataDefinition, Chart, ChartProps } from 'cdk8s';
 import { Construct, IConstruct } from 'constructs';
 import { CatalogLibraryInfo } from './package-info.js';
 
@@ -101,6 +101,24 @@ export class CatalogChart extends Chart {
       },
     });
     this.releaseName = resolvedReleaseName;
+  }
+
+  /**
+   * Copies this chart's common labels onto a pod template's metadata (e.g.
+   * `deployment.podMetadata`, `statefulSet.podMetadata`).
+   *
+   * cdk8s only merges `Chart.labels` into each `ApiObject`'s own
+   * `metadata.labels` automatically. A workload's embedded pod template
+   * (`spec.template.metadata`) isn't a separate `ApiObject` - it's nested
+   * data inside the workload's own spec - so it never receives the chart's
+   * labels for free. Without this, the running Pods end up missing every
+   * `app.kubernetes.io/*` / catalog label that the workload resource itself
+   * has, even though they're both "in" the same chart.
+   */
+  public addPodLabels(podMetadata: ApiObjectMetadataDefinition): void {
+    for (const [key, value] of Object.entries(this.labels)) {
+      podMetadata.addLabel(key, value);
+    }
   }
 
   /**
