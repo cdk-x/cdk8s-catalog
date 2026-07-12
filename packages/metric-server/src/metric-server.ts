@@ -1,4 +1,8 @@
-import { CatalogChart, CatalogChartProps } from '@cdk-x/cdk8s-core';
+import {
+  CatalogChart,
+  CatalogChartProps,
+  readCatalogLibraryInfo,
+} from '@cdk-x/cdk8s-core';
 import { Construct } from 'constructs';
 import { MetricServerApiService } from './api-service/index.js';
 import { AggregatedMetricsReaderClusterRole } from './cluster-role/index.js';
@@ -36,7 +40,7 @@ export class MetricServer extends CatalogChart {
       namespace: 'kube-system',
       ...props,
       releaseName,
-      labels: { 'k8s-app': releaseName, ...props.labels },
+      catalogLibrary: readCatalogLibraryInfo(import.meta.url),
     });
 
     // ServiceAccount the pods run as / RBAC subject.
