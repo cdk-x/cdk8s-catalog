@@ -15,6 +15,9 @@
     ],
     "sharedGlobals": []
   },
+  "tui": {
+    "enabled": false
+  },
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
