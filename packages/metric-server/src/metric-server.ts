@@ -49,25 +49,35 @@ export class MetricServer extends CatalogChart {
 
     new AggregatedMetricsReaderClusterRole(this, 'AggregatedMetricsReader');
 
+    // Explicit dependencies pin the manifest's apply order (ServiceAccount
+    // before its bindings/Deployment, Deployment before Service, Service
+    // before APIService) to the actual resource graph, instead of leaving it
+    // as an accident of construction order.
     const authDelegatorBinding = new AuthDelegatorClusterRoleBinding(this, 'AuthDelegator');
     authDelegatorBinding.clusterRoleBinding.addSubjects(subject);
+    authDelegatorBinding.node.addDependency(this.serviceAccount);
 
     const metricsServerBinding = new MetricServerClusterRoleBinding(this, 'MetricsServerBinding');
     metricsServerBinding.clusterRoleBinding.addSubjects(subject);
+    metricsServerBinding.node.addDependency(this.serviceAccount);
 
     const authReaderBinding = new AuthReaderRoleBinding(this, 'AuthReader');
     authReaderBinding.roleBinding.addSubjects(subject);
+    authReaderBinding.node.addDependency(this.serviceAccount);
 
     this.deployment = new MetricServerDeployment(this, 'Deployment', {
       serviceAccount: subject,
       ...props.deployment,
     });
+    this.deployment.node.addDependency(this.serviceAccount);
 
     this.service = new MetricServerService(this, 'Service', {
       selector: this.deployment.deployment,
       targetPort: this.deployment.securePort,
     });
+    this.service.node.addDependency(this.deployment);
 
     this.apiService = new MetricServerApiService(this, 'ApiService');
+    this.apiService.node.addDependency(this.service);
   }
 }

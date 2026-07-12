@@ -3,22 +3,6 @@
 exports[`MetricServer matches the manifest snapshot 1`] = `
 [
   {
-    "apiVersion": "v1",
-    "automountServiceAccountToken": false,
-    "kind": "ServiceAccount",
-    "metadata": {
-      "labels": {
-        "app.kubernetes.io/instance": "metric-server",
-        "app.kubernetes.io/managed-by": "cdk8s",
-        "app.kubernetes.io/name": "metric-server",
-        "cdk8s-catalog/library-name": "metric-server",
-        "cdk8s-catalog/library-version": "0.0.1",
-      },
-      "name": "metric-server",
-      "namespace": "kube-system",
-    },
-  },
-  {
     "apiVersion": "rbac.authorization.k8s.io/v1",
     "kind": "ClusterRole",
     "metadata": {
@@ -65,6 +49,22 @@ exports[`MetricServer matches the manifest snapshot 1`] = `
         ],
       },
     ],
+  },
+  {
+    "apiVersion": "v1",
+    "automountServiceAccountToken": false,
+    "kind": "ServiceAccount",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "cdk8s-catalog/library-name": "metric-server",
+        "cdk8s-catalog/library-version": "0.0.1",
+      },
+      "name": "metric-server",
+      "namespace": "kube-system",
+    },
   },
   {
     "apiVersion": "rbac.authorization.k8s.io/v1",
