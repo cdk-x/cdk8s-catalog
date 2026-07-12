@@ -22,6 +22,30 @@
           "node tools/release-local-cleanup.mjs"
         ]
       }
+    },
+    "k3d-cluster-create": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "k3d cluster create --config k3d.yaml"
+      }
+    },
+    "k3d-cluster-start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "k3d cluster start cdk8s-catalog"
+      }
+    },
+    "k3d-cluster-stop": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "k3d cluster stop cdk8s-catalog"
+      }
+    },
+    "k3d-cluster-delete": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "k3d cluster delete --config k3d.yaml"
+      }
     }
   }
 }
