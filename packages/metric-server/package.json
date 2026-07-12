@@ -19,6 +19,10 @@
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {
+    "@cdk-x/cdk8s-core": "workspace:*",
+    "cdk8s": "^2.70.82",
+    "cdk8s-plus-34": "^2.0.35",
+    "constructs": "^10.6.0",
     "tslib": "^2.3.0"
   }
 }
