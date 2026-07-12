@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MetricServerContainer matches snapshot 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "testing",
+        "cdk8s.io/metadata.addr": "testing-Pod-c8f9e356",
+      },
+      "name": "testing-pod-c8dc8040",
+      "namespace": "kube-system",
+    },
+    "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+        {
+          "args": [
+            "--cert-dir=/tmp",
+            "--secure-port=10250",
+            "--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname",
+            "--kubelet-use-node-status-port",
+            "--metric-resolution=15s",
+          ],
+          "image": "registry.k8s.io/metrics-server/metrics-server:v0.8.0",
+          "imagePullPolicy": "IfNotPresent",
+          "livenessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/livez",
+              "port": 10250,
+              "scheme": "HTTPS",
+            },
+            "periodSeconds": 10,
+          },
+          "name": "metric-server",
+          "ports": [
+            {
+              "containerPort": 10250,
+              "name": "https",
+              "protocol": "TCP",
+            },
+          ],
+          "readinessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/readyz",
+              "port": 10250,
+              "scheme": "HTTPS",
+            },
+            "initialDelaySeconds": 20,
+            "periodSeconds": 10,
+          },
+          "resources": {
+            "requests": {
+              "cpu": "100m",
+              "memory": "200Mi",
+            },
+          },
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL",
+              ],
+            },
+            "privileged": false,
+            "readOnlyRootFilesystem": true,
+            "runAsNonRoot": true,
+            "runAsUser": 1000,
+            "seccompProfile": {
+              "type": "RuntimeDefault",
+            },
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/tmp",
+              "name": "tmp-dir",
+            },
+          ],
+        },
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "hostNetwork": false,
+      "restartPolicy": "Always",
+      "securityContext": {
+        "fsGroupChangePolicy": "Always",
+        "runAsNonRoot": true,
+      },
+      "setHostnameAsFQDN": false,
+      "shareProcessNamespace": false,
+      "terminationGracePeriodSeconds": 30,
+      "volumes": [
+        {
+          "emptyDir": {},
+          "name": "tmp-dir",
+        },
+      ],
+    },
+  },
+]
+`;

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MetricServerClusterRole matches snapshot 1`] = `
+[
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "ClusterRole",
+    "metadata": {
+      "name": "system:metrics-server",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "nodes/metrics",
+        ],
+        "verbs": [
+          "get",
+        ],
+      },
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "nodes",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+]
+`;

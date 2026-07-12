@@ -1,0 +1,406 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MetricServer matches the manifest snapshot 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "automountServiceAccountToken": false,
+    "kind": "ServiceAccount",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "metric-server",
+      "namespace": "kube-system",
+    },
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "ClusterRole",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+        "rbac.authorization.k8s.io/aggregate-to-admin": "true",
+        "rbac.authorization.k8s.io/aggregate-to-edit": "true",
+        "rbac.authorization.k8s.io/aggregate-to-view": "true",
+      },
+      "name": "system:aggregated-metrics-reader",
+      "namespace": "kube-system",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "metrics.k8s.io",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+      {
+        "apiGroups": [
+          "metrics.k8s.io",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "nodes",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "ClusterRoleBinding",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "metrics-server:system:auth-delegator",
+      "namespace": "kube-system",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "ClusterRole",
+      "name": "system:auth-delegator",
+    },
+    "subjects": [
+      {
+        "apiGroup": "",
+        "kind": "ServiceAccount",
+        "name": "metric-server",
+        "namespace": "kube-system",
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "ClusterRole",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "system:metrics-server",
+      "namespace": "kube-system",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "nodes/metrics",
+        ],
+        "verbs": [
+          "get",
+        ],
+      },
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resourceNames": [],
+        "resources": [
+          "nodes",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "ClusterRoleBinding",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "system:metrics-server",
+      "namespace": "kube-system",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "ClusterRole",
+      "name": "system:metrics-server",
+    },
+    "subjects": [
+      {
+        "apiGroup": "",
+        "kind": "ServiceAccount",
+        "name": "metric-server",
+        "namespace": "kube-system",
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "metrics-server-auth-reader",
+      "namespace": "kube-system",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "Role",
+      "name": "extension-apiserver-authentication-reader",
+    },
+    "subjects": [
+      {
+        "apiGroup": "",
+        "kind": "ServiceAccount",
+        "name": "metric-server",
+        "namespace": "kube-system",
+      },
+    ],
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "metrics-server",
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "metric-server",
+      "namespace": "kube-system",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "metric-server-Deployment-c82d1816",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/component": "metrics-server",
+            "cdk8s.io/metadata.addr": "metric-server-Deployment-c82d1816",
+          },
+        },
+        "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/os",
+                        "operator": "In",
+                        "values": [
+                          "linux",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "args": [
+                "--cert-dir=/tmp",
+                "--secure-port=10250",
+                "--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname",
+                "--kubelet-use-node-status-port",
+                "--metric-resolution=15s",
+              ],
+              "image": "registry.k8s.io/metrics-server/metrics-server:v0.8.0",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 10250,
+                  "scheme": "HTTPS",
+                },
+                "periodSeconds": 10,
+              },
+              "name": "metric-server",
+              "ports": [
+                {
+                  "containerPort": 10250,
+                  "name": "https",
+                  "protocol": "TCP",
+                },
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": 10250,
+                  "scheme": "HTTPS",
+                },
+                "initialDelaySeconds": 20,
+                "periodSeconds": 10,
+              },
+              "resources": {
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "200Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL",
+                  ],
+                },
+                "privileged": false,
+                "readOnlyRootFilesystem": true,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+                "seccompProfile": {
+                  "type": "RuntimeDefault",
+                },
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp-dir",
+                },
+              ],
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "serviceAccountName": "metric-server",
+          "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
+          "terminationGracePeriodSeconds": 30,
+          "volumes": [
+            {
+              "emptyDir": {},
+              "name": "tmp-dir",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "metric-server",
+      "namespace": "kube-system",
+    },
+    "spec": {
+      "externalIPs": [],
+      "ports": [
+        {
+          "name": "https",
+          "port": 443,
+          "protocol": "TCP",
+          "targetPort": 10250,
+        },
+      ],
+      "selector": {
+        "cdk8s.io/metadata.addr": "metric-server-Deployment-c82d1816",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  {
+    "apiVersion": "apiregistration.k8s.io/v1",
+    "kind": "APIService",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "metric-server",
+        "k8s-app": "metric-server",
+      },
+      "name": "v1beta1.metrics.k8s.io",
+      "namespace": "kube-system",
+    },
+    "spec": {
+      "group": "metrics.k8s.io",
+      "groupPriorityMinimum": 100,
+      "insecureSkipTLSVerify": true,
+      "service": {
+        "name": "metric-server",
+        "namespace": "kube-system",
+      },
+      "version": "v1beta1",
+      "versionPriority": 100,
+    },
+  },
+]
+`;
