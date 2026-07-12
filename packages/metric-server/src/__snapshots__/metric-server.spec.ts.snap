@@ -243,6 +243,11 @@ exports[`MetricServer matches the manifest snapshot 1`] = `
         "metadata": {
           "labels": {
             "app.kubernetes.io/component": "metrics-server",
+            "app.kubernetes.io/instance": "metric-server",
+            "app.kubernetes.io/managed-by": "cdk8s",
+            "app.kubernetes.io/name": "metric-server",
+            "cdk8s-catalog/library-name": "metric-server",
+            "cdk8s-catalog/library-version": "0.0.1",
             "cdk8s.io/metadata.addr": "metric-server-Deployment-c82d1816",
           },
         },

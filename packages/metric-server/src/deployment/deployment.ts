@@ -52,7 +52,8 @@ export class MetricServerDeployment extends Construct {
     props: MetricServerDeploymentProps,
   ) {
     super(scope, id);
-    const { releaseName } = CatalogChart.of(this);
+    const chart = CatalogChart.of(this);
+    const { releaseName } = chart;
 
     this.container = new MetricServerContainer(this, 'Container', {
       image: props.image,
@@ -78,6 +79,7 @@ export class MetricServerDeployment extends Construct {
     });
     this.deployment.attachContainer(this.container.container);
     this.deployment.metadata.addLabel(CommonLabels.COMPONENT, 'metrics-server');
+    chart.addPodLabels(this.deployment.podMetadata);
     this.deployment.podMetadata.addLabel(CommonLabels.COMPONENT, 'metrics-server');
 
     this.deployment.scheduling.attract(
