@@ -17,6 +17,8 @@ export default [
     },
   },
   {
-    ignores: ['**/out-tsc'],
+    // `src/old` is kept as reference material only; it is excluded from the
+    // build (see tsconfig.lib.json) and not linted.
+    ignores: ['**/out-tsc', 'src/old/**'],
   },
 ];
