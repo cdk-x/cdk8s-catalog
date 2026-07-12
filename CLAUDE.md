@@ -21,3 +21,13 @@
 - The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
 
 <!-- nx configuration end-->
+
+## Jira
+
+- project: CDKX
+- component: cdk8s-catalog
+
+## Confluence
+
+- space: cdkx
+- PRD folder id: 227606529
