@@ -71,6 +71,10 @@ export class MetricServerDeployment extends Construct {
         }),
       replicas: props.replicas ?? 1,
       serviceAccount: props.serviceAccount,
+      // The pod-level setting defaults to false and overrides the
+      // ServiceAccount's own automountToken - metrics-server needs its SA
+      // token mounted to authenticate to the API server.
+      automountServiceAccountToken: true,
     });
     this.deployment.attachContainer(this.container.container);
     this.deployment.metadata.addLabel(CommonLabels.COMPONENT, 'metrics-server');

@@ -73,7 +73,7 @@ exports[`MetricServerDeployment matches snapshot 1`] = `
               },
             },
           },
-          "automountServiceAccountToken": false,
+          "automountServiceAccountToken": true,
           "containers": [
             {
               "args": [
