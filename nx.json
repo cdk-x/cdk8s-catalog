@@ -50,7 +50,7 @@
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "pnpm dlx nx run-many -t build"
+      "preVersionCommand": "pnpm dlx nx run-many -t build --exclude=tag:e2e"
     },
     "changelog": {
       "workspaceChangelog": false,
