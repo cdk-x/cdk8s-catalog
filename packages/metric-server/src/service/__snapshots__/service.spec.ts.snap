@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MetricServerService matches snapshot 1`] = `
+{
+  "apiVersion": "v1",
+  "kind": "Service",
+  "metadata": {
+    "labels": {
+      "app.kubernetes.io/instance": "metric-server",
+      "app.kubernetes.io/managed-by": "cdk8s",
+      "app.kubernetes.io/name": "testing",
+    },
+    "name": "metric-server",
+    "namespace": "kube-system",
+  },
+  "spec": {
+    "externalIPs": [],
+    "ports": [
+      {
+        "name": "https",
+        "port": 443,
+        "protocol": "TCP",
+        "targetPort": 10250,
+      },
+    ],
+    "selector": {
+      "cdk8s.io/metadata.addr": "testing-Deployment-c8b04708",
+    },
+    "type": "ClusterIP",
+  },
+}
+`;

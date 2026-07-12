@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MetricServerDeployment matches snapshot 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "automountServiceAccountToken": false,
+    "kind": "ServiceAccount",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "testing",
+      },
+      "name": "metric-server",
+      "namespace": "kube-system",
+    },
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "metrics-server",
+        "app.kubernetes.io/instance": "metric-server",
+        "app.kubernetes.io/managed-by": "cdk8s",
+        "app.kubernetes.io/name": "testing",
+      },
+      "name": "metric-server",
+      "namespace": "kube-system",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "testing-Deployment-c8b04708",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": 0,
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/component": "metrics-server",
+            "cdk8s.io/metadata.addr": "testing-Deployment-c8b04708",
+          },
+        },
+        "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/os",
+                        "operator": "In",
+                        "values": [
+                          "linux",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "args": [
+                "--cert-dir=/tmp",
+                "--secure-port=10250",
+                "--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname",
+                "--kubelet-use-node-status-port",
+                "--metric-resolution=15s",
+              ],
+              "image": "registry.k8s.io/metrics-server/metrics-server:v0.8.0",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 10250,
+                  "scheme": "HTTPS",
+                },
+                "periodSeconds": 10,
+              },
+              "name": "metric-server",
+              "ports": [
+                {
+                  "containerPort": 10250,
+                  "name": "https",
+                  "protocol": "TCP",
+                },
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": 10250,
+                  "scheme": "HTTPS",
+                },
+                "initialDelaySeconds": 20,
+                "periodSeconds": 10,
+              },
+              "resources": {
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "200Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL",
+                  ],
+                },
+                "privileged": false,
+                "readOnlyRootFilesystem": true,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+                "seccompProfile": {
+                  "type": "RuntimeDefault",
+                },
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp-dir",
+                },
+              ],
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "serviceAccountName": "metric-server",
+          "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
+          "terminationGracePeriodSeconds": 30,
+          "volumes": [
+            {
+              "emptyDir": {},
+              "name": "tmp-dir",
+            },
+          ],
+        },
+      },
+    },
+  },
+]
+`;
