@@ -1,6 +1,6 @@
 import { Testing } from 'cdk8s';
 import { Construct } from 'constructs';
-import { CatalogChart, CommonLabels } from './catalog-chart.js';
+import { CatalogChart, CatalogLabels, CommonLabels } from './catalog-chart.js';
 
 describe('CatalogChart', () => {
   it('defaults releaseName to the construct id', () => {
@@ -63,5 +63,17 @@ describe('CatalogChart', () => {
       labels: { [CommonLabels.MANAGED_BY]: 'helm' },
     });
     expect(chart.labels[CommonLabels.MANAGED_BY]).toBe('helm');
+  });
+
+  it('includes catalog library labels only when catalogLibrary is provided', () => {
+    const withLibrary = new CatalogChart(Testing.app(), 'my-app', {
+      catalogLibrary: { name: 'metric-server', version: '0.0.1' },
+    });
+    expect(withLibrary.labels[CatalogLabels.LIBRARY_NAME]).toBe('metric-server');
+    expect(withLibrary.labels[CatalogLabels.LIBRARY_VERSION]).toBe('0.0.1');
+
+    const withoutLibrary = new CatalogChart(Testing.app(), 'my-app');
+    expect(withoutLibrary.labels[CatalogLabels.LIBRARY_NAME]).toBeUndefined();
+    expect(withoutLibrary.labels[CatalogLabels.LIBRARY_VERSION]).toBeUndefined();
   });
 });
