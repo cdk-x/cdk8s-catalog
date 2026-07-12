@@ -50,6 +50,9 @@ exports[`MetricServerDeployment matches snapshot 1`] = `
         "metadata": {
           "labels": {
             "app.kubernetes.io/component": "metrics-server",
+            "app.kubernetes.io/instance": "metric-server",
+            "app.kubernetes.io/managed-by": "cdk8s",
+            "app.kubernetes.io/name": "testing",
             "cdk8s.io/metadata.addr": "testing-Deployment-c8b04708",
           },
         },
