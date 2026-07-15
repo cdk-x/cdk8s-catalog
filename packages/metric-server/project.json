@@ -4,6 +4,24 @@
   "sourceRoot": "packages/metric-server/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project metric-server --web",
-  "targets": {}
+  "targets": {
+    "docs-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-prepare-library.mjs && mkdocs build --config-file packages/metric-server/mkdocs.yml --strict"
+      }
+    },
+    "docs-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-prepare-library.mjs && mkdocs serve --config-file packages/metric-server/mkdocs.yml"
+      }
+    },
+    "docs-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-deploy-library.mjs metric-server"
+      }
+    }
+  }
 }

@@ -1,0 +1,16 @@
+INHERIT: ../../mkdocs.yml
+
+site_name: Metric Server
+site_description: '@cdk-x/metric-server - a ready-to-deploy Kubernetes metrics-server.'
+site_url: https://cdk-x.github.io/cdk8s-catalog/libraries/metric-server/
+edit_uri: edit/main/packages/metric-server/docs/
+
+docs_dir: docs
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+nav:
+  - index.md
