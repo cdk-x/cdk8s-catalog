@@ -66,6 +66,36 @@
           "pkill -f verdaccio || true"
         ]
       }
+    },
+    "docs-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "mkdocs serve"
+      }
+    },
+    "docs-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "mkdocs build --strict"
+      }
+    },
+    "docs-serve-versioned": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "mike serve"
+      }
+    },
+    "docs-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-deploy.mjs"
+      }
+    },
+    "docs-preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-preview.mjs"
+      }
     }
   }
 }
