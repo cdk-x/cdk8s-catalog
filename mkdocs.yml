@@ -1,0 +1,86 @@
+site_name: cdk8s Catalog
+site_description: >-
+  A catalog of reusable, Helm-like cdk8s constructs for Kubernetes.
+site_url: https://cdk-x.github.io/cdk8s-catalog/
+repo_url: https://github.com/cdk-x/cdk8s-catalog
+repo_name: cdk-x/cdk8s-catalog
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - content.action.edit
+    - toc.follow
+
+extra_css:
+  - stylesheets/extra.css
+
+# No version selector here on purpose - the catalog's own pages (Home, Core,
+# the Libraries index) are evergreen, not tied to a Kubernetes version.
+# Versioning (via mike) lives on each library's own docs site instead - see
+# packages/*/mkdocs.yml - where it tracks that library's own semver.
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.snippets:
+      base_path:
+        - '.'
+      check_paths: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Core:
+      - core/index.md
+      - CatalogChart: core/catalog-chart.md
+      - Building a library: core/building-a-library.md
+  - Libraries: libraries/index.md
