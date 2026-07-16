@@ -52,29 +52,56 @@ Explicit `labels` passed in props always win over these computed defaults.
 ### `releaseName`
 
 The Helm equivalent of `.Release.Name` / `fullnameOverride`. Defaults to the
-construct `id`. Sub-constructs read it via `CatalogChart.of(this).releaseName`
+construct `id`. `CatalogChart` injects it into the construct tree via
+`node.setContext`, so any sub-construct reads it with:
+
+```ts
+const releaseName: string = this.node.tryGetContext('releaseName');
+```
+
 instead of it being threaded through every constructor.
 
-### `addPodLabels(podMetadata)`
+There is deliberately no `CatalogChart.of(scope)`-style static accessor:
+`CatalogChart extends Chart`, and `Chart` already declares
+`static of(c: IConstruct): Chart`. jsii disallows a subclass static member
+narrowing an inherited static's return type, so a `CatalogChart.of()`
+returning `CatalogChart` can't be made jsii-compatible. Context sidesteps
+this entirely since it doesn't touch the class's static surface at all.
+
+### `context`
+
+Arbitrary key/value context you want available to any descendant
+construct, injected via `node.setContext` alongside `releaseName`:
+
+```ts
+new MyThing(app, 'id', {
+  context: { environment: 'prod', region: 'eu-west-1' },
+});
+
+// in any sub-construct:
+this.node.tryGetContext('environment'); // 'prod'
+```
+
+### Copying labels onto a pod template
 
 Chart-level labels only land on top-level `ApiObject`s automatically — a
 workload's embedded pod template (`spec.template.metadata`) is nested data,
-not its own `ApiObject`, so it doesn't inherit them for free. Call this from
-a `Deployment`/`StatefulSet` construct to copy the chart's labels onto the
-pod template:
+not its own `ApiObject`, so it doesn't inherit them for free. `labels` is a
+base `Chart` property (not `CatalogChart`-specific), so reach it via the
+base, un-overridden `Chart.of(scope)` and copy them onto the pod template
+yourself from a `Deployment`/`StatefulSet` construct:
 
 ```ts
-CatalogChart.of(this).addPodLabels(this.deployment.podMetadata);
+import { Chart } from 'cdk8s';
+
+const { labels } = Chart.of(this);
+for (const [key, value] of Object.entries(labels)) {
+  this.deployment.podMetadata.addLabel(key, value);
+}
 ```
 
 Without this, the running Pods would be missing every
 `app.kubernetes.io/*` / catalog label that the workload resource itself has.
-
-### `CatalogChart.of(scope)`
-
-Walks up the construct tree from `scope` and returns the nearest
-`CatalogChart` ancestor. Throws if none is found. Use it from a sub-construct
-that needs the chart's `releaseName` or wants to call `addPodLabels`.
 
 ## `readCatalogLibraryInfo`
 
