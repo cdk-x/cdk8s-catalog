@@ -1,4 +1,3 @@
-import { CatalogChart } from '@cdk-x/cdk8s-core';
 import { IPodSelector, Protocol, Service } from 'cdk8s-plus-34';
 import { Construct } from 'constructs';
 import { METRICS_SERVER_SECURE_PORT } from '../container/index.js';
@@ -29,7 +28,7 @@ export class MetricServerService extends Construct {
   constructor(scope: Construct, id: string, props: MetricServerServiceProps) {
     super(scope, id);
 
-    const { releaseName } = CatalogChart.of(this);
+    const releaseName: string = this.node.tryGetContext('releaseName');
     this.service = new Service(this, 'Service', {
       metadata: { name: releaseName },
     });

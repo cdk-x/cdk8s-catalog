@@ -1,4 +1,3 @@
-import { CatalogChart } from '@cdk-x/cdk8s-core';
 import { ServiceAccount } from 'cdk8s-plus-34';
 import { Construct } from 'constructs';
 
@@ -14,7 +13,7 @@ export class MetricServerServiceAccount extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const { releaseName } = CatalogChart.of(this);
+    const releaseName: string = this.node.tryGetContext('releaseName');
     this.serviceAccount = new ServiceAccount(this, 'ServiceAccount', {
       metadata: { name: releaseName },
       // metrics-server authenticates to the API server using its own SA

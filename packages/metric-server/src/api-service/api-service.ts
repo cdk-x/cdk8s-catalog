@@ -1,5 +1,4 @@
-import { CatalogChart } from '@cdk-x/cdk8s-core';
-import { ApiObject } from 'cdk8s';
+import { ApiObject, Chart } from 'cdk8s';
 import { Construct } from 'constructs';
 
 /**
@@ -14,7 +13,8 @@ export class MetricServerApiService extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const catalogChart = CatalogChart.of(this);
+    const releaseName: string = this.node.tryGetContext('releaseName');
+    const { namespace } = Chart.of(this);
     this.apiService = new ApiObject(this, 'APIService', {
       apiVersion: 'apiregistration.k8s.io/v1',
       kind: 'APIService',
@@ -26,8 +26,8 @@ export class MetricServerApiService extends Construct {
         groupPriorityMinimum: 100,
         insecureSkipTLSVerify: true,
         service: {
-          name: catalogChart.releaseName,
-          namespace: catalogChart.namespace,
+          name: releaseName,
+          namespace,
         },
         version: 'v1beta1',
         versionPriority: 100,

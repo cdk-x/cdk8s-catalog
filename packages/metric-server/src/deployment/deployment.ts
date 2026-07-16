@@ -1,4 +1,5 @@
-import { CatalogChart, CommonLabels } from '@cdk-x/cdk8s-core';
+import { CommonLabels } from '@cdk-x/cdk8s-core';
+import { Chart } from 'cdk8s';
 import {
   Deployment,
   DeploymentStrategy,
@@ -52,8 +53,7 @@ export class MetricServerDeployment extends Construct {
     props: MetricServerDeploymentProps,
   ) {
     super(scope, id);
-    const chart = CatalogChart.of(this);
-    const { releaseName } = chart;
+    const releaseName: string = this.node.tryGetContext('releaseName');
 
     this.container = new MetricServerContainer(this, 'Container', {
       image: props.image,
@@ -79,7 +79,10 @@ export class MetricServerDeployment extends Construct {
     });
     this.deployment.attachContainer(this.container.container);
     this.deployment.metadata.addLabel(CommonLabels.COMPONENT, 'metrics-server');
-    chart.addPodLabels(this.deployment.podMetadata);
+    const { labels } = Chart.of(this);
+    for (const [key, value] of Object.entries(labels)) {
+      this.deployment.podMetadata.addLabel(key, value);
+    }
     this.deployment.podMetadata.addLabel(CommonLabels.COMPONENT, 'metrics-server');
 
     this.deployment.scheduling.attract(
