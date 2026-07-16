@@ -1,4 +1,3 @@
-import { CatalogChart } from '@cdk-x/cdk8s-core';
 import { Duration, Size } from 'cdk8s';
 import {
   Capability,
@@ -125,7 +124,7 @@ export class MetricServerContainer extends Construct {
     props: MetricServerContainerProps = {},
   ) {
     super(scope, id);
-    const { releaseName } = CatalogChart.of(this);
+    const releaseName: string = this.node.tryGetContext('releaseName');
 
     this.argsMap = new Map(
       Object.entries({
