@@ -13,22 +13,20 @@ describe('CatalogChart', () => {
     expect(chart.releaseName).toBe('custom-name');
   });
 
-  it('of() returns the nearest CatalogChart ancestor', () => {
-    const chart = new CatalogChart(Testing.app(), 'chart', { releaseName: 'test' });
+  it('injects releaseName into context, readable from any descendant', () => {
+    const chart = new CatalogChart(Testing.app(), 'chart', { releaseName: 'custom-name' });
     const child = new Construct(chart, 'child');
     const grandchild = new Construct(child, 'grandchild');
-    expect(CatalogChart.of(grandchild)).toBe(chart);
+    expect(grandchild.node.tryGetContext('releaseName')).toBe('custom-name');
   });
 
-  it('of() returns the chart itself when called on a CatalogChart', () => {
-    const chart = new CatalogChart(Testing.app(), 'chart');
-    expect(CatalogChart.of(chart)).toBe(chart);
-  });
-
-  it('of() throws when no CatalogChart ancestor exists', () => {
-    const app = Testing.app();
-    const orphan = new Construct(app, 'orphan');
-    expect(() => CatalogChart.of(orphan)).toThrow(/No CatalogChart ancestor/);
+  it('injects user-provided context values, readable from any descendant', () => {
+    const chart = new CatalogChart(Testing.app(), 'my-app', {
+      context: { environment: 'prod', region: 'eu-west-1' },
+    });
+    const child = new Construct(chart, 'child');
+    expect(child.node.tryGetContext('environment')).toBe('prod');
+    expect(child.node.tryGetContext('region')).toBe('eu-west-1');
   });
 
   it('applies the standard app.kubernetes.io common labels by default', () => {

@@ -1,5 +1,5 @@
-import { ApiObjectMetadataDefinition, Chart, ChartProps } from 'cdk8s';
-import { Construct, IConstruct } from 'constructs';
+import { Chart, ChartProps } from 'cdk8s';
+import { Construct } from 'constructs';
 import { CatalogLibraryInfo } from './package-info.js';
 
 /**
@@ -53,12 +53,21 @@ export interface CatalogChartProps extends ChartProps {
    * @default omitted when not provided
    */
   readonly catalogLibrary?: CatalogLibraryInfo;
+  /**
+   * Arbitrary key/value context injected into the construct tree via
+   * `node.setContext`, so any descendant construct can read it with
+   * `node.tryGetContext(key)` without needing a reference to this chart.
+   * `releaseName` is always injected under the key `"releaseName"` alongside
+   * whatever is provided here.
+   * @default {}
+   */
+  readonly context?: Record<string, string>;
 }
 
 /**
  * Base class for all catalog charts. Carries a `releaseName` that sub-constructs
- * can read via `CatalogChart.of(this).releaseName` instead of threading it through
- * every constructor prop.
+ * can read via `this.node.tryGetContext('releaseName')` instead of threading it
+ * through every constructor prop.
  *
  * Also applies the Kubernetes recommended common labels ({@link CommonLabels}) at
  * the chart level — cdk8s merges `Chart.labels` into every `ApiObject`'s own
@@ -79,6 +88,7 @@ export class CatalogChart extends Chart {
       partOf,
       catalogLibrary,
       labels,
+      context,
       ...chartProps
     } = props;
     const resolvedReleaseName = releaseName ?? id;
@@ -101,40 +111,12 @@ export class CatalogChart extends Chart {
       },
     });
     this.releaseName = resolvedReleaseName;
-  }
 
-  /**
-   * Copies this chart's common labels onto a pod template's metadata (e.g.
-   * `deployment.podMetadata`, `statefulSet.podMetadata`).
-   *
-   * cdk8s only merges `Chart.labels` into each `ApiObject`'s own
-   * `metadata.labels` automatically. A workload's embedded pod template
-   * (`spec.template.metadata`) isn't a separate `ApiObject` - it's nested
-   * data inside the workload's own spec - so it never receives the chart's
-   * labels for free. Without this, the running Pods end up missing every
-   * `app.kubernetes.io/*` / catalog label that the workload resource itself
-   * has, even though they're both "in" the same chart.
-   */
-  public addPodLabels(podMetadata: ApiObjectMetadataDefinition): void {
-    for (const [key, value] of Object.entries(this.labels)) {
-      podMetadata.addLabel(key, value);
+    for (const [key, value] of Object.entries(context ?? {})) {
+      this.node.setContext(key, value);
     }
-  }
-
-  /**
-   * Returns the nearest {@link CatalogChart} ancestor in the construct tree,
-   * starting from `scope` itself.  Throws if no ancestor is found.
-   */
-  static override of(scope: IConstruct): CatalogChart {
-    let current: IConstruct | undefined = scope;
-    while (current) {
-      if (current instanceof CatalogChart) {
-        return current as CatalogChart;
-      }
-      current = current.node.scope;
-    }
-    throw new Error(
-      `No CatalogChart ancestor found for construct at path: ${scope.node.path}`,
-    );
+    // set last so it always reflects the actual resolved value, even if the
+    // caller's own `context` happened to include a `releaseName` entry.
+    this.node.setContext('releaseName', resolvedReleaseName);
   }
 }
