@@ -16,11 +16,54 @@
   },
   "files": [
     "dist",
+    ".jsii",
     "!**/*.tsbuildinfo"
   ],
+  "author": {
+    "name": "cdk-x",
+    "organization": true
+  },
+  "license": "MIT",
+  "keywords": [
+    "cdk8s",
+    "cdk",
+    "constructs",
+    "kubernetes"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cdk-x/cdk8s-catalog.git",
+    "directory": "packages/cdk8s-core"
+  },
+  "jsii": {
+    "outdir": "dist-jsii",
+    "targets": {
+      "python": {
+        "distName": "cdk8s-catalog-core",
+        "module": "cdk8s_catalog_core"
+      },
+      "java": {
+        "package": "io.github.cdkx.cdk8scatalog.core",
+        "maven": {
+          "groupId": "io.github.cdkx",
+          "artifactId": "cdk8s-catalog-core"
+        }
+      },
+      "dotnet": {
+        "namespace": "CdkX.Cdk8sCatalog.Core",
+        "packageId": "CdkX.Cdk8sCatalog.Core"
+      },
+      "go": {
+        "moduleName": "github.com/cdk-x/cdk8s-catalog-go"
+      }
+    }
+  },
   "dependencies": {
     "cdk8s": "^2.70.82",
     "constructs": "^10.6.0",
     "tslib": "^2.3.0"
-  }
+  },
+  "bundledDependencies": [
+    "tslib"
+  ]
 }
