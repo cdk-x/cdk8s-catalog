@@ -93,10 +93,11 @@ export interface MetricServerContainerProps {
   readonly resources?: ContainerResources;
   /**
    * Extra/overriding command-line flags, keyed by flag name (without `--`).
-   * Merged over the defaults; an empty value renders a bare flag.
+   * Merged over the defaults; an empty value renders a bare flag. Use
+   * {@link MetricsServerArg} for well-known flag names (e.g.
+   * `[MetricsServerArg.CERT_DIR]: '/tmp'`) — any other string key works too.
    */
-  readonly args?: Partial<Record<MetricsServerArg, string>> &
-    Record<string, string>;
+  readonly args?: Record<string, string>;
   /** Health probe overrides. */
   readonly probes?: MetricServerProbesOptions;
 }
