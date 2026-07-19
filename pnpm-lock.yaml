@@ -108,7 +108,7 @@ importers:
   packages/metric-server:
     dependencies:
       '@cdk-x/cdk8s-core':
-        specifier: workspace:*
+        specifier: ^0.0.1
         version: link:../cdk8s-core
       cdk8s:
         specifier: ^2.70.82

@@ -5,6 +5,95 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "jsii-compile": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^jsii-compile"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "jsii --tsconfig tsconfig.jsii.json"
+      },
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/.jsii"]
+    },
+    "jsii-docs": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-compile"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "jsii-docgen -l typescript -l python -l java -l csharp -l go -o dist-jsii/docs/API"
+      },
+      "outputs": ["{projectRoot}/dist-jsii/docs"]
+    },
+    "jsii-package-python": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-compile"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "jsii-pacmak -t python --outdir dist-jsii ."
+      },
+      "outputs": ["{projectRoot}/dist-jsii/python"]
+    },
+    "jsii-package-java": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-compile"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "jsii-pacmak -t java --outdir dist-jsii ."
+      },
+      "outputs": ["{projectRoot}/dist-jsii/java"]
+    },
+    "jsii-package-dotnet": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-compile"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "jsii-pacmak -t dotnet --outdir dist-jsii ."
+      },
+      "outputs": ["{projectRoot}/dist-jsii/dotnet"]
+    },
+    "jsii-package-go": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-compile"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "jsii-pacmak -t go --outdir dist-jsii ."
+      },
+      "outputs": ["{projectRoot}/dist-jsii/go"]
+    },
+    "jsii-publish-python": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-package-python"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "publib-pypi dist-jsii/python"
+      }
+    },
+    "jsii-publish-java": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-package-java"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "publib-maven dist-jsii/java"
+      }
+    },
+    "jsii-publish-dotnet": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-package-dotnet"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "publib-nuget dist-jsii/dotnet"
+      }
+    },
+    "jsii-publish-go": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-package-go"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "publib-golang dist-jsii/go"
+      }
+    },
+    "nx-release-publish": {
+      "dependsOn": ["^nx-release-publish", "jsii-compile"]
+    },
     "docs-build": {
       "executor": "nx:run-commands",
       "options": {

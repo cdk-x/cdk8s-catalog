@@ -9,6 +9,11 @@ export default [
         'error',
         {
           ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}'],
+          // jsii can't parse the "workspace:*" protocol as a semver range
+          // when resolving @cdk-x/cdk8s-core as a jsii dependency, so it's
+          // pinned to a real range instead - this rule would otherwise
+          // rewrite it back to "workspace:*" on every --fix/sync.
+          ignoredDependencies: ['@cdk-x/cdk8s-core'],
         },
       ],
     },
