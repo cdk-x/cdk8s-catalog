@@ -16,13 +16,69 @@
   },
   "files": [
     "dist",
+    ".jsii",
     "!**/*.tsbuildinfo"
   ],
+  "author": {
+    "name": "cdk-x",
+    "organization": true
+  },
+  "license": "MIT",
+  "keywords": [
+    "cdk8s",
+    "cdk",
+    "constructs",
+    "kubernetes",
+    "metrics-server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cdk-x/cdk8s-catalog.git",
+    "directory": "packages/metric-server"
+  },
+  "jsii": {
+    "outdir": "dist-jsii",
+    "targets": {
+      "python": {
+        "distName": "cdk8s-catalog-metric-server",
+        "module": "cdk8s_catalog_metric_server"
+      },
+      "java": {
+        "package": "io.github.cdkx.cdk8scatalog.metricserver",
+        "maven": {
+          "groupId": "io.github.cdkx",
+          "artifactId": "cdk8s-catalog-metric-server"
+        }
+      },
+      "dotnet": {
+        "namespace": "CdkX.Cdk8sCatalog.MetricServer",
+        "packageId": "CdkX.Cdk8sCatalog.MetricServer"
+      },
+      "go": {
+        "moduleName": "github.com/cdk-x/cdk8s-catalog-go"
+      }
+    }
+  },
   "dependencies": {
-    "@cdk-x/cdk8s-core": "workspace:*",
+    "@cdk-x/cdk8s-core": "^0.0.1",
     "cdk8s": "^2.70.82",
     "cdk8s-plus-34": "^2.0.35",
     "constructs": "^10.6.0",
     "tslib": "^2.3.0"
-  }
+  },
+  "peerDependencies": {
+    "@cdk-x/cdk8s-core": "^0.0.1",
+    "cdk8s": "^2.70.82",
+    "cdk8s-plus-34": "^2.0.35",
+    "constructs": "^10.6.0"
+  },
+  "devDependencies": {
+    "@cdk-x/cdk8s-core": "0.0.1",
+    "cdk8s": "2.70.82",
+    "cdk8s-plus-34": "2.0.35",
+    "constructs": "10.6.0"
+  },
+  "bundledDependencies": [
+    "tslib"
+  ]
 }
