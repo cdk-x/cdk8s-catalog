@@ -63,6 +63,14 @@
     "constructs": "^10.6.0",
     "tslib": "^2.3.0"
   },
+  "peerDependencies": {
+    "cdk8s": "^2.70.82",
+    "constructs": "^10.6.0"
+  },
+  "devDependencies": {
+    "cdk8s": "2.70.82",
+    "constructs": "10.6.0"
+  },
   "bundledDependencies": [
     "tslib"
   ]
