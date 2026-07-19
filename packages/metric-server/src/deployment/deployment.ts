@@ -15,9 +15,12 @@ import {
   MetricServerContainerProps,
 } from '../container/index.js';
 
-export interface MetricServerDeploymentProps extends MetricServerContainerProps {
-  /** Service account the pods run as. */
-  readonly serviceAccount: ServiceAccount;
+/**
+ * {@link MetricServerDeploymentProps} minus {@link MetricServerDeploymentProps.serviceAccount}
+ * — split out (instead of `Omit<MetricServerDeploymentProps, 'serviceAccount'>`) because jsii
+ * can't represent computed/mapped types like `Omit` in the public API.
+ */
+export interface MetricServerDeploymentOptions extends MetricServerContainerProps {
   /**
    * Number of replicas.
    * @default 1
@@ -28,6 +31,11 @@ export interface MetricServerDeploymentProps extends MetricServerContainerProps 
    * @default rollingUpdate with maxUnavailable=0
    */
   readonly strategy?: DeploymentStrategy;
+}
+
+export interface MetricServerDeploymentProps extends MetricServerDeploymentOptions {
+  /** Service account the pods run as. */
+  readonly serviceAccount: ServiceAccount;
 }
 
 /**

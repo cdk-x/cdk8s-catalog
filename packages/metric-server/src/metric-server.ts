@@ -12,7 +12,7 @@ import {
 } from './cluster-role-binding/index.js';
 import {
   MetricServerDeployment,
-  MetricServerDeploymentProps,
+  MetricServerDeploymentOptions,
 } from './deployment/index.js';
 import { AuthReaderRoleBinding } from './role-binding/index.js';
 import { MetricServerService } from './service/index.js';
@@ -20,7 +20,7 @@ import { MetricServerServiceAccount } from './service-account/index.js';
 
 export interface MetricServerProps extends CatalogChartProps {
   /** Deployment overrides (replicas, strategy, image, resources, probes, args). */
-  readonly deployment?: Omit<MetricServerDeploymentProps, 'serviceAccount'>;
+  readonly deployment?: MetricServerDeploymentOptions;
 }
 
 /**
