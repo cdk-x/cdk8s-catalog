@@ -43,30 +43,41 @@
     },
     "jsii-package-java": {
       "executor": "nx:run-commands",
-      "dependsOn": ["jsii-compile"],
+      "dependsOn": ["jsii-compile", "^jsii-package-java"],
       "options": {
         "cwd": "packages/metric-server",
-        "command": "jsii-pacmak -t java --outdir dist-jsii ."
+        "command": "jsii-pacmak -t java --outdir dist-jsii . && mkdir -p ~/.m2/repository && cp -r dist-jsii/java/. ~/.m2/repository/"
       },
       "outputs": ["{projectRoot}/dist-jsii/java"]
     },
     "jsii-package-dotnet": {
       "executor": "nx:run-commands",
-      "dependsOn": ["jsii-compile"],
+      "dependsOn": ["jsii-compile", "^jsii-package-dotnet"],
       "options": {
         "cwd": "packages/metric-server",
-        "command": "jsii-pacmak -t dotnet --outdir dist-jsii ."
+        "command": "mkdir -p ~/.nuget-local-feed && (dotnet nuget add source ~/.nuget-local-feed --name cdk8s-catalog-local || true) && jsii-pacmak -t dotnet --outdir dist-jsii . && cp dist-jsii/dotnet/*.nupkg ~/.nuget-local-feed/"
       },
       "outputs": ["{projectRoot}/dist-jsii/dotnet"]
     },
     "jsii-package-go": {
       "executor": "nx:run-commands",
-      "dependsOn": ["jsii-compile"],
+      "dependsOn": ["jsii-compile", "^jsii-package-go"],
       "options": {
         "cwd": "packages/metric-server",
         "command": "jsii-pacmak -t go --outdir dist-jsii ."
       },
       "outputs": ["{projectRoot}/dist-jsii/go"]
+    },
+    "jsii-package-all": {
+      "executor": "nx:noop",
+      "dependsOn": [
+        "jsii-docs",
+        "jsii-package-npm",
+        "jsii-package-python",
+        "jsii-package-java",
+        "jsii-package-dotnet",
+        "jsii-package-go"
+      ]
     },
     "jsii-publish-npm": {
       "executor": "nx:run-commands",
