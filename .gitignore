@@ -44,6 +44,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# never commit exported key material (e.g. GPG keys for Maven Central signing)
+*.pem
+
 .nx/cache
 .nx/workspace-data
 .nx/migrate-runs
