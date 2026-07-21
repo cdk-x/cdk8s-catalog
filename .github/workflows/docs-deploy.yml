@@ -1,0 +1,117 @@
+name: Deploy docs
+
+on:
+  workflow_call:
+    inputs:
+      projects:
+        description: "JSON array of {name, root} (e.g. build-jsii's project list) or a comma/space-separated list of short library names. Empty = every library with docs."
+        type: string
+        default: ""
+      sha:
+        description: "Commit sha to check out. Empty = the ref that triggered this run."
+        type: string
+        default: ""
+      ref_name:
+        description: "Branch name the release was cut from (used to fix detached HEAD after checking out a sha)."
+        type: string
+        default: ""
+      dry_run:
+        description: "Dry run: nx docs-build only, never push to gh-pages."
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      projects:
+        description: "Comma/space-separated library names (short form, e.g. 'metric-server' - NOT the '@cdk-x/...' Nx project names used by release.yml's own 'projects' input). Empty = every library with docs."
+        type: string
+        default: ""
+      dry_run:
+        description: "Dry run: nx docs-build only, never push to gh-pages."
+        type: boolean
+        default: false
+
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.sha || '' }}
+          filter: tree:0
+          fetch-depth: 0
+
+      # release.yml checks out a raw commit sha, which always produces
+      # detached HEAD - tools/docs-deploy-library.mjs and tools/docs-deploy.mjs
+      # both key their "is this main?" behavior off `git branch --show-current`,
+      # which returns empty in detached HEAD. Restore a real branch name before
+      # running any docs tooling, or a real main release would silently take
+      # the "not main" path (never move the `latest` alias, skip the catalog
+      # site entirely).
+      - name: Ensure a real branch (not detached HEAD)
+        run: git checkout -B "${{ inputs.ref_name || github.ref_name }}"
+
+      # actions/checkout only fetches the ref you ask for - gh-pages won't
+      # exist as a local ref in a fresh checkout even though it already
+      # exists on origin. Without this, tools/docs-deploy.mjs would think
+      # gh-pages doesn't exist at all and try to bootstrap a fresh orphan
+      # branch, which then fails to push (diverges from the real history).
+      - name: Ensure local gh-pages ref exists
+        run: git fetch origin gh-pages:gh-pages || echo "no gh-pages on origin yet - will bootstrap as orphan"
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+          cache: "pip"
+          cache-dependency-path: docs/requirements.txt
+
+      - run: pip install -r docs/requirements.txt
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Resolve doc-enabled projects
+        id: resolve
+        run: echo "libraries=$(node tools/list-docs-projects.mjs '${{ inputs.projects }}')" >> "$GITHUB_OUTPUT"
+
+      # Sequential on purpose - every library's mike deploy and the catalog's
+      # own docs-deploy push to the same shared gh-pages branch; a parallel
+      # matrix would race, same class of problem release.yml already solves
+      # by looping sequentially for the shared Go mirror repo.
+      - name: Deploy each library's docs
+        run: |
+          for lib in $(echo '${{ steps.resolve.outputs.libraries }}' | jq -r '.[]'); do
+            echo "== $lib =="
+            if [ "${{ inputs.dry_run }}" = "true" ]; then
+              pnpm nx run "$lib:docs-build"
+            else
+              pnpm nx run "$lib:docs-deploy"
+            fi
+          done
+
+      - name: Deploy the catalog's own evergreen site
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            pnpm nx run @cdk-x/cdk8s-catalog:docs-build
+          else
+            pnpm nx run @cdk-x/cdk8s-catalog:docs-deploy
+          fi
