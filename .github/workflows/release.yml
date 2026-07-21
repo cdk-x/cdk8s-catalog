@@ -224,6 +224,17 @@ jobs:
           node-version: 22
           cache: "pnpm"
 
+      # PyPI Trusted Publisher auth installs the `id` package at runtime,
+      # which pulls in securesystemslib -> boto3 -> pyOpenSSL. The runner's
+      # default system Python has an apt-installed pyOpenSSL that's
+      # incompatible with whatever cryptography version gets resolved
+      # ("AttributeError: module 'lib' has no attribute 'GEN_EMAIL'") - an
+      # isolated Python from setup-python avoids that system package clash
+      # entirely.
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
       - run: pnpm install --frozen-lockfile
 
       - uses: actions/download-artifact@v4
