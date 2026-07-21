@@ -98,12 +98,12 @@ jobs:
           node-version: 22
           cache: "pnpm"
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "8.x"
 
@@ -114,7 +114,7 @@ jobs:
           pnpm nx run-many -t jsii-package-all
           ${{ inputs.projects && format('-p {0}', inputs.projects) || '' }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: jsii-dist
           path: packages/*/dist-jsii
@@ -152,7 +152,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: jsii-dist
           path: /tmp/jsii-dist
@@ -237,7 +237,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: jsii-dist
           path: /tmp/jsii-dist
@@ -289,7 +289,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: jsii-dist
           path: /tmp/jsii-dist
@@ -331,13 +331,13 @@ jobs:
           node-version: 22
           cache: "pnpm"
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "8.x"
 
       - run: pnpm install --frozen-lockfile
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: jsii-dist
           path: /tmp/jsii-dist
