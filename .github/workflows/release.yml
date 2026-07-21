@@ -36,7 +36,7 @@ jobs:
           filter: tree:0
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:
@@ -85,7 +85,7 @@ jobs:
         with:
           ref: ${{ needs.version.outputs.sha }}
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:
@@ -137,7 +137,7 @@ jobs:
         with:
           ref: ${{ needs.version.outputs.sha }}
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:
@@ -211,7 +211,7 @@ jobs:
         with:
           ref: ${{ needs.version.outputs.sha }}
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:
@@ -259,7 +259,7 @@ jobs:
         with:
           ref: ${{ needs.version.outputs.sha }}
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:
@@ -307,7 +307,7 @@ jobs:
         with:
           ref: ${{ needs.version.outputs.sha }}
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:

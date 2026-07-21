@@ -67,7 +67,7 @@ jobs:
       - name: Ensure local gh-pages ref exists
         run: git fetch origin gh-pages:gh-pages || echo "no gh-pages on origin yet - will bootstrap as orphan"
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:
