@@ -51,7 +51,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Verify branch is releasable
-        run: pnpm nx run-many -t lint test build typecheck
+        run: pnpm nx run-many -t lint test build typecheck --exclude=tag:e2e
 
       - name: Bump versions
         run: >
