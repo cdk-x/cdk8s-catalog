@@ -1,0 +1,339 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      projects:
+        description: "Comma/space-separated project names to release (e.g. @cdk-x/metric-server). Empty = all projects with pending changes."
+        type: string
+        default: ""
+      first_release:
+        description: "First release for the selected project(s): passes --first-release, and switches npm publish to a classic NPM_TOKEN instead of OIDC Trusted Publisher (which can't be configured on npm before the package exists)"
+        type: boolean
+        default: false
+      dry_run:
+        description: "Dry run: no git push, no real publish (PUBLIB_DRYRUN=true)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.resolve-sha.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Configure release commit identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Verify branch is releasable
+        run: pnpm nx run-many -t lint test build typecheck
+
+      - name: Bump versions
+        run: >
+          pnpm nx release version --git-commit=false --git-tag=false --git-push=false
+          ${{ inputs.projects && format('--projects={0}', inputs.projects) || '' }}
+          ${{ inputs.first_release && '--first-release' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Generate changelogs, commit and tag per project
+        run: >
+          node tools/release-changelog.mjs --git-commit --git-tag
+          ${{ inputs.projects && format('--projects={0}', inputs.projects) || '' }}
+          ${{ inputs.first_release && '--first-release' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Push commits and tags
+        if: ${{ !inputs.dry_run }}
+        run: git push origin HEAD --follow-tags
+
+      - name: Resolve released sha
+        id: resolve-sha
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  build-jsii:
+    needs: version
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.list-projects.outputs.projects }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.version.outputs.sha }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Compile and package jsii artifacts for every language
+        run: >
+          pnpm nx run-many -t jsii-package-all
+          ${{ inputs.projects && format('-p {0}', inputs.projects) || '' }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jsii-dist
+          path: packages/*/dist-jsii
+          retention-days: 7
+
+      # Dynamic list of {name, root} for every jsii-publishable project - lets
+      # the publish jobs below fan out per package without ever hardcoding a
+      # package list in this file (see tools/list-release-projects.mjs).
+      - name: List release projects
+        id: list-projects
+        run: echo "projects=$(node tools/list-release-projects.mjs '${{ inputs.projects }}')" >> "$GITHUB_OUTPUT"
+
+  # Registries authenticated with a static secret: no per-project identity
+  # concern, so one job per language loops over every package in turn.
+  publish:
+    needs: [version, build-jsii]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [java, go]
+    env:
+      PUBLIB_DRYRUN: ${{ inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.version.outputs.sha }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jsii-dist
+          path: /tmp/jsii-dist
+
+      - name: Restore per-package dist-jsii from artifact
+        run: |
+          for root in $(echo '${{ needs.build-jsii.outputs.projects }}' | jq -r '.[].root'); do
+            mkdir -p "$root/dist-jsii"
+            cp -r "/tmp/jsii-dist/$(basename "$root")/dist-jsii/." "$root/dist-jsii/"
+          done
+
+      - name: Publish Maven
+        if: matrix.lang == 'java'
+        env:
+          MAVEN_SERVER_ID: central-ossrh
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          MAVEN_GPG_PRIVATE_KEY_PASSPHRASE: ${{ secrets.MAVEN_GPG_PRIVATE_KEY_PASSPHRASE }}
+        run: |
+          for root in $(echo '${{ needs.build-jsii.outputs.projects }}' | jq -r '.[].root'); do
+            pnpm exec publib-maven "$root/dist-jsii/java"
+          done
+
+      - name: Publish Go module mirror
+        if: matrix.lang == 'go'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_GO_MIRROR_TOKEN }}
+          GIT_USER_NAME: github-actions[bot]
+          GIT_USER_EMAIL: github-actions[bot]@users.noreply.github.com
+        run: |
+          # Every package shares the same mirror repo (github.com/cdk-x/cdk8s-catalog-go),
+          # each landing in its own subdirectory - the loop must stay sequential
+          # (no & backgrounding) to avoid racing pushes to the same repo.
+          for root in $(echo '${{ needs.build-jsii.outputs.projects }}' | jq -r '.[].root'); do
+            pnpm exec publib-golang "$root/dist-jsii/go"
+          done
+
+  # PyPI Trusted Publisher (OIDC) needs a distinct GitHub Environment per PyPI
+  # project - GitHub only supports `environment:` at the job level, so each
+  # package must run as its own job instance. This is one job *definition*
+  # fed by the dynamic project list; it fans out to one parallel run per
+  # package at execution time, so this file never changes as libraries are
+  # added - only the "pypi-<pkg>" environment + PyPI pending-publisher need
+  # to be registered once per new library.
+  publish-pypi:
+    needs: [version, build-jsii]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: ${{ fromJson(needs.build-jsii.outputs.projects) }}
+    environment: pypi-${{ matrix.pkg.name }}
+    env:
+      PUBLIB_DRYRUN: ${{ inputs.dry_run }}
+      PYPI_TRUSTED_PUBLISHER: "1"
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.version.outputs.sha }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jsii-dist
+          path: /tmp/jsii-dist
+
+      - name: Restore dist-jsii from artifact
+        run: |
+          mkdir -p "${{ matrix.pkg.root }}/dist-jsii"
+          cp -r "/tmp/jsii-dist/${{ matrix.pkg.name }}/dist-jsii/." "${{ matrix.pkg.root }}/dist-jsii/"
+
+      - name: Publish PyPI
+        run: pnpm exec publib-pypi "${{ matrix.pkg.root }}/dist-jsii/python"
+
+  # npm Trusted Publisher (OIDC) - configured per package on npmjs.com, same
+  # per-package-environment constraint as publish-pypi above. Can't be set up
+  # on npm before the package has been published at least once though, so on
+  # `first_release` this job falls back to a classic NPM_TOKEN instead - see
+  # notes/npm-registry-setup.md and notes/first-release-runbook.md.
+  publish-npm:
+    needs: [version, build-jsii]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: ${{ fromJson(needs.build-jsii.outputs.projects) }}
+    environment: npm-${{ matrix.pkg.name }}
+    env:
+      PUBLIB_DRYRUN: ${{ inputs.dry_run }}
+      NPM_TRUSTED_PUBLISHER: ${{ !inputs.first_release && '1' || '' }}
+      NPM_TOKEN: ${{ inputs.first_release && secrets.NPM_TOKEN || '' }}
+      NPM_ACCESS_LEVEL: public
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.version.outputs.sha }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      # npm Trusted Publisher requires npm CLI >= 11.5.1; Node 22's bundled
+      # npm is older than that.
+      - run: npm install -g npm@latest
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jsii-dist
+          path: /tmp/jsii-dist
+
+      - name: Restore dist-jsii from artifact
+        run: |
+          mkdir -p "${{ matrix.pkg.root }}/dist-jsii"
+          cp -r "/tmp/jsii-dist/${{ matrix.pkg.name }}/dist-jsii/." "${{ matrix.pkg.root }}/dist-jsii/"
+
+      - name: Publish npm
+        run: pnpm exec publib-npm "${{ matrix.pkg.root }}/dist-jsii/js"
+
+  # NuGet Trusted Publisher (OIDC) - unlike PyPI, NuGet's Trusted Publishing
+  # policy is scoped to the *account* (Package Owner: cdk-x), not to an
+  # individual package ID - no "Package ID"/"Package Name" field exists on
+  # the policy form, and it saved fine with no package published yet. So one
+  # shared environment/policy authorizes every package under that owner;
+  # no per-package matrix needed here (unlike publish-pypi above).
+  publish-nuget:
+    needs: [version, build-jsii]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: nuget
+    env:
+      PUBLIB_DRYRUN: ${{ inputs.dry_run }}
+      NUGET_TRUSTED_PUBLISHER: "1"
+      NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.version.outputs.sha }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jsii-dist
+          path: /tmp/jsii-dist
+
+      - name: Restore per-package dist-jsii from artifact
+        run: |
+          for root in $(echo '${{ needs.build-jsii.outputs.projects }}' | jq -r '.[].root'); do
+            mkdir -p "$root/dist-jsii"
+            cp -r "/tmp/jsii-dist/$(basename "$root")/dist-jsii/." "$root/dist-jsii/"
+          done
+
+      - name: Publish NuGet
+        run: |
+          for root in $(echo '${{ needs.build-jsii.outputs.projects }}' | jq -r '.[].root'); do
+            pnpm exec publib-nuget "$root/dist-jsii/dotnet"
+          done
