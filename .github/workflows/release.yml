@@ -346,6 +346,8 @@ jobs:
   # redeploy without cutting a new release.
   deploy-docs:
     needs: [version, build-jsii, publish, publish-pypi, publish-npm, publish-nuget]
+    permissions:
+      contents: write
     uses: ./.github/workflows/docs-deploy.yml
     with:
       projects: ${{ needs.build-jsii.outputs.projects }}
