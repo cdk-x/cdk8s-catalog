@@ -337,3 +337,18 @@ jobs:
           for root in $(echo '${{ needs.build-jsii.outputs.projects }}' | jq -r '.[].root'); do
             pnpm exec publib-nuget "$root/dist-jsii/dotnet"
           done
+
+  # Redeploy docs (mkdocs + mike) for whatever libraries were just released,
+  # reusing build-jsii's project list - not re-derived independently. Gated
+  # on every publish job succeeding: don't advertise docs for a release that
+  # didn't fully land everywhere. See .github/workflows/docs-deploy.yml,
+  # which is also independently workflow_dispatch-able for a docs-only
+  # redeploy without cutting a new release.
+  deploy-docs:
+    needs: [version, build-jsii, publish, publish-pypi, publish-npm, publish-nuget]
+    uses: ./.github/workflows/docs-deploy.yml
+    with:
+      projects: ${{ needs.build-jsii.outputs.projects }}
+      sha: ${{ needs.version.outputs.sha }}
+      ref_name: ${{ github.ref_name }}
+      dry_run: ${{ inputs.dry_run }}
