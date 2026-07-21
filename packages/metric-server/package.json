@@ -44,9 +44,9 @@
         "module": "cdk8s_catalog_metric_server"
       },
       "java": {
-        "package": "io.github.cdkx.cdk8scatalog.metricserver",
+        "package": "com.cdkx.cdk8scatalog.metricserver",
         "maven": {
-          "groupId": "io.github.cdkx",
+          "groupId": "com.cdk-x",
           "artifactId": "cdk8s-catalog-metric-server"
         }
       },
