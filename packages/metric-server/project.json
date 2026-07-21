@@ -23,6 +23,15 @@
       },
       "outputs": ["{projectRoot}/dist-jsii/docs"]
     },
+    "jsii-package-npm": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-compile"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "jsii-pacmak -t js --outdir dist-jsii ."
+      },
+      "outputs": ["{projectRoot}/dist-jsii/js"]
+    },
     "jsii-package-python": {
       "executor": "nx:run-commands",
       "dependsOn": ["jsii-compile"],
@@ -58,6 +67,14 @@
         "command": "jsii-pacmak -t go --outdir dist-jsii ."
       },
       "outputs": ["{projectRoot}/dist-jsii/go"]
+    },
+    "jsii-publish-npm": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["jsii-package-npm"],
+      "options": {
+        "cwd": "packages/metric-server",
+        "command": "publib-npm dist-jsii/js"
+      }
     },
     "jsii-publish-python": {
       "executor": "nx:run-commands",
