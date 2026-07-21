@@ -168,4 +168,7 @@ pnpm nx lint  <library>    # eslint, incl. @nx/dependency-checks
 ```
 
 Once the library is documented, add it to [Libraries](../libraries/index.md)
-and to the `nav` in `mkdocs.yml`.
+and to the `nav` in `mkdocs.yml`. Docs tooling (mkdocs, mkdocs-material, mike)
+is pinned in `docs/requirements.txt` — install it with
+`pip install -r docs/requirements.txt` before running `nx docs-serve`/
+`docs-build`/`docs-deploy`, so your local versions match CI.
