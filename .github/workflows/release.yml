@@ -30,6 +30,7 @@ jobs:
       contents: write
     outputs:
       sha: ${{ steps.resolve-sha.outputs.sha }}
+      projects: ${{ steps.affected.outputs.projects }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -58,18 +59,32 @@ jobs:
       # 0.0.1 -> 0.0.2 on a breaking change, since semver only starts
       # incrementing the major digit at 1.0.0), so pass it as an explicit
       # specifier rather than relying on --first-release alone.
+      #
+      # Always writes real (uncommitted) files to disk, dry run or not - never
+      # passes nx's own --dry-run here - so the affected check below sees the
+      # same on-disk state either way. Nothing gets committed/tagged/pushed
+      # from this step regardless (that boundary is the next two steps).
       - name: Bump versions
         run: >
           pnpm nx release version ${{ inputs.first_release && '1.0.0' || '' }}
           --git-commit=false --git-tag=false --git-push=false
           ${{ inputs.projects && format('--projects={0}', inputs.projects) || '' }}
           ${{ inputs.first_release && '--first-release' || '' }}
-          ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      # Which projects actually need releasing, including dependents whose
+      # package.json got a dependency-range bump as a side effect of the
+      # above (e.g. scoping to just cdk8s-core still touches metric-server).
+      # Same command, same result, whether this is a dry run or not - the
+      # bump above always writes for real, so nx sees the same uncommitted
+      # diff either way.
+      - name: Determine actually-affected projects
+        id: affected
+        run: echo "projects=$(pnpm nx show projects --affected --json | jq -r 'join(",")')" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelogs, commit and tag per project
         run: >
           node tools/release-changelog.mjs --git-commit --git-tag
-          ${{ inputs.projects && format('--projects={0}', inputs.projects) || '' }}
+          ${{ steps.affected.outputs.projects && format('--projects={0}', steps.affected.outputs.projects) || '' }}
           ${{ inputs.first_release && '--first-release' || '' }}
           ${{ inputs.dry_run && '--dry-run' || '' }}
 
@@ -112,7 +127,7 @@ jobs:
       - name: Compile and package jsii artifacts for every language
         run: >
           pnpm nx run-many -t jsii-package-all
-          ${{ inputs.projects && format('-p {0}', inputs.projects) || '' }}
+          ${{ needs.version.outputs.projects && format('-p {0}', needs.version.outputs.projects) || '' }}
 
       - uses: actions/upload-artifact@v7
         with:
@@ -125,7 +140,7 @@ jobs:
       # package list in this file (see tools/list-release-projects.mjs).
       - name: List release projects
         id: list-projects
-        run: echo "projects=$(node tools/list-release-projects.mjs '${{ inputs.projects }}')" >> "$GITHUB_OUTPUT"
+        run: echo "projects=$(node tools/list-release-projects.mjs '${{ needs.version.outputs.projects }}')" >> "$GITHUB_OUTPUT"
 
   # Registries authenticated with a static secret: no per-project identity
   # concern, so one job per language loops over every package in turn.
