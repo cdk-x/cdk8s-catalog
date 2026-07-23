@@ -1,0 +1,29 @@
+# <%= className %>
+
+--8<-- "packages/<%= name %>/docs/_compat.md"
+
+--8<-- "packages/<%= name %>/docs/_lang-switcher.md"
+
+`@cdk-x/<%= name %>` <%= description %>
+
+## Installing
+
+```sh
+npm install @cdk-x/<%= name %>
+```
+
+## Usage
+
+```ts
+import { App } from 'cdk8s';
+import { <%= className %> } from '@cdk-x/<%= name %>';
+
+const app = new App();
+new <%= className %>(app, '<%= className %>');
+app.synth();
+```
+
+## What it creates
+
+<!-- TODO: document the Kubernetes resources this library creates, mirroring
+     packages/metric-server/docs/index.md's "What it creates" table. -->

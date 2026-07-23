@@ -11,6 +11,9 @@
     },
     {
       "path": "./e2e/metric-server"
+    },
+    {
+      "path": "./tools/nx-plugin"
     }
   ]
 }

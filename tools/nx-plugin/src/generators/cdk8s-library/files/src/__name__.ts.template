@@ -1,0 +1,20 @@
+import { CatalogChart, CatalogChartProps } from '@cdk-x/cdk8s-core';
+import { Construct } from 'constructs';
+
+// TODO: once this library models its own props (grouped knobs + defaults,
+// per docs/building-a-library.md), replace this alias with a real
+// <%= className %>Props interface extending CatalogChartProps.
+export type <%= className %>Props = CatalogChartProps;
+
+/**
+ * TODO: describe what this chart deploys.
+ */
+export class <%= className %> extends CatalogChart {
+  constructor(scope: Construct, id: string, props: <%= className %>Props = {}) {
+    super(scope, id, props);
+
+    // TODO: instantiate this library's per-kind constructs here, one folder
+    // per Kubernetes kind under src/ (see docs/building-a-library.md),
+    // exposing each as a `public readonly` field on this class.
+  }
+}

@@ -1,0 +1,23 @@
+INHERIT: ../../mkdocs.yml
+
+site_name: <%= className %>
+site_description: '@cdk-x/<%= name %> - <%= description %>'
+site_url: https://cdk-x.github.io/cdk8s-catalog/libraries/<%= name %>/
+edit_uri: edit/main/packages/<%= name %>/docs/
+
+docs_dir: docs
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+nav:
+  - Home: https://cdk-x.github.io/cdk8s-catalog/
+  - <%= className %>: index.md
+  - API Reference:
+      - TypeScript: api/typescript.md
+      - Python: api/python.md
+      - Java: api/java.md
+      - C#: api/csharp.md
+      - Go: api/go.md

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Cdk8sLibrary",
+  "title": "Cdk8s Library",
+  "description": "Scaffold a new cdk8s catalog library (jsii config, mkdocs site, per-kind construct layout), following the pattern documented in docs/building-a-library.md.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Short, kebab-case library name (e.g. \"ingress-nginx\"). Used for the packages/<name> folder and the @cdk-x/<name> npm package.",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the short (kebab-case) name of the library?"
+    },
+    "description": {
+      "type": "string",
+      "description": "One-line description of what the library deploys - used in package.json, mkdocs.yml and docs/libraries/index.md."
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Extra npm keywords, added alongside the base cdk8s/cdk/constructs/kubernetes keywords."
+    }
+  },
+  "required": ["name"]
+}
