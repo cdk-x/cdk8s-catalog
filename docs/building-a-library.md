@@ -6,6 +6,31 @@ The [`@cdk-x/metric-server`](https://github.com/cdk-x/cdk8s-catalog/tree/main/pa
 package is the canonical reference implementation — read it alongside this
 guide.
 
+## Scaffolding a new library
+
+```sh
+pnpm nx g @cdk-x/nx-plugin:cdk8s-library <library> [--description="..."] [--keywords=a,b]
+```
+
+This generator (`tools/nx-plugin`) scaffolds the whole pattern in one shot:
+the base TS library (via `@nx/js:library`), the jsii setup (`.jsii` targets,
+`tsconfig.jsii.json`, the `jsii-*` `project.json` targets), the library's own
+mkdocs site (`mkdocs.yml`, `docs/index.md`, the `docs-build`/`docs-serve`/
+`docs-deploy` targets — see [Docs site](#docs-site) below), the
+`@cdk-x/cdk8s-core` + `cdk8s` + `cdk8s-plus-<N>` dependencies (pinned to
+whatever `metric-server` currently declares, so it keeps working across a
+Kubernetes version bump — see [Kubernetes version](#principles) below —
+without any change to the generator itself), and registers the library in
+[Libraries](libraries/index.md).
+
+It only scaffolds the bare skeleton: `src/index.ts` plus an empty
+`<Library>` `Chart` extending
+[`CatalogChart`](https://cdk-x.github.io/cdk8s-catalog/libraries/cdk8s-core/catalog-chart/).
+Add each `src/<kind>/` folder by hand afterwards, following the pattern
+below. The generator targets application-deploying libraries — i.e.
+everything except `cdk8s-core` itself, which has no `cdk8s-plus` dependency
+and no per-kind folders.
+
 ## Principles
 
 1. **One folder per Kubernetes `kind`.** Each folder under `src/` owns a
@@ -148,19 +173,6 @@ Use cdk8s `Testing` with Jest (SWC transform is already configured):
 - Chart spec: one `expect(Testing.synth(chart)).toMatchSnapshot()` over the
   whole composition.
 
-## Scaffolding a new library
-
-```sh
-pnpm nx g @nx/js:lib packages/<library> --publishable --importPath @cdk-x/<library>
-pnpm add cdk8s cdk8s-plus-34 constructs --filter @cdk-x/<library>
-pnpm add @cdk-x/cdk8s-core --filter @cdk-x/<library>
-```
-
-Then follow the layout above, with the composition root extending
-[`CatalogChart`](https://cdk-x.github.io/cdk8s-catalog/libraries/cdk8s-core/catalog-chart/).
-The package is ESM (`"type": "module"`) with an `exports` map and a `source`
-condition pointing at `src/index.ts`.
-
 ## Commands
 
 ```sh
@@ -171,7 +183,10 @@ pnpm nx lint  <library>    # eslint, incl. @nx/dependency-checks
 
 ## Docs site
 
-Every library gets its own versioned docs site (mirror `packages/metric-server/`):
+Every library gets its own versioned docs site (mirror `packages/metric-server/`).
+The [generator](#scaffolding-a-new-library) already creates all of this — the
+breakdown below is for understanding the pieces, and for `cdk8s-core`, the one
+library it doesn't scaffold:
 
 1. `packages/<library>/mkdocs.yml` (`INHERIT: ../../mkdocs.yml`, own `site_name`/
    `site_url`/`edit_uri`, `extra.version.provider: mike`, and a `nav:` starting
@@ -191,7 +206,8 @@ Every library gets its own versioned docs site (mirror `packages/metric-server/`
    (see `packages/metric-server/mkdocs.yml`'s `API Reference` nav section for
    the pattern to copy) — no manual step needed beyond adding that nav section.
 
-Then add the library to [Libraries](libraries/index.md). Docs tooling (mkdocs,
-mkdocs-material, mike) is pinned in `docs/requirements.txt` — install it with
+Then add the library to [Libraries](libraries/index.md) — already done for
+you if you used the generator. Docs tooling (mkdocs, mkdocs-material, mike)
+is pinned in `docs/requirements.txt` — install it with
 `pip install -r docs/requirements.txt` before running `nx docs-serve`/
 `docs-build`/`docs-deploy`, so your local versions match CI.

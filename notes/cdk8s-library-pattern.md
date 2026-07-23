@@ -4,6 +4,34 @@ This is the pattern every cdk8s library in this catalog follows. The
 `@cdk-x/metric-server` package is the canonical reference implementation — read
 it alongside this guide.
 
+## Scaffolding a new library
+
+```sh
+pnpm nx g @cdk-x/nx-plugin:cdk8s-library <library> [--description="..."] [--keywords=a,b]
+```
+
+A local Nx generator (`tools/nx-plugin`, generator source at
+`tools/nx-plugin/src/generators/cdk8s-library/generator.ts`) does this in one
+shot: composes `@nx/js:library` for the base TS scaffold, then layers on the
+jsii config (`.jsii` targets, `tsconfig.jsii.json`, `jsii-*` `project.json`
+targets), the library's mkdocs site (`mkdocs.yml`, `docs/index.md`,
+`docs-build`/`docs-serve`/`docs-deploy` targets), and the
+`@cdk-x/cdk8s-core` + `cdk8s` + `cdk8s-plus-<N>` dependencies. The
+`cdk8s-plus-<N>` package name and every version pin are read from
+`packages/metric-server/package.json` at generation time (not hardcoded) —
+this catalog tracks one Kubernetes version per branch (a `1.x` maintenance
+branch stays on `cdk8s-plus-34` while `main` moves on to `cdk8s-plus-35`,
+etc.), so the generator must never assume a specific `-<N>`. It also
+registers the library in `docs/libraries/index.md`.
+
+It only scaffolds the bare skeleton (`src/index.ts` + an empty `<Library>`
+`Chart` extending `CatalogChart`) — add each `src/<kind>/` folder by hand,
+following the pattern below. Doesn't apply to `cdk8s-core` itself (no
+`cdk8s-plus` dependency, no per-kind folders) — that one is still hand-built.
+
+Package is ESM (`"type": "module"`) with an `exports` map and a `source`
+condition pointing at `src/index.ts`.
+
 ## Principles
 
 1. **One folder per Kubernetes `kind`.** Each folder under `src/` owns a single
@@ -137,16 +165,6 @@ Use cdk8s `Testing` with Jest (SWC transform is already configured):
   asserts the change lands at synth.
 - Chart spec: one `expect(Testing.synth(chart)).toMatchSnapshot()` over the
   whole composition.
-
-## Scaffolding a new library
-
-```sh
-pnpm nx g @nx/js:lib packages/<library> --publishable --importPath @cdk-x/<library>
-pnpm add cdk8s cdk8s-plus-34 constructs --filter @cdk-x/<library>
-```
-
-Then follow the layout above. Package is ESM (`"type": "module"`) with an
-`exports` map and a `source` condition pointing at `src/index.ts`.
 
 ## Commands
 
