@@ -123,7 +123,7 @@ importers:
   packages/metric-server:
     dependencies:
       '@cdk-x/cdk8s-core':
-        specifier: ^0.0.1
+        specifier: ^1.0.0
         version: link:../cdk8s-core
       cdk8s:
         specifier: ^2.70.82

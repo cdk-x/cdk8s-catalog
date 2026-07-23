@@ -1,6 +1,6 @@
 {
   "name": "@cdk-x/metric-server",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -60,20 +60,20 @@
     }
   },
   "dependencies": {
-    "@cdk-x/cdk8s-core": "^0.0.1",
+    "@cdk-x/cdk8s-core": "^1.0.0",
     "cdk8s": "^2.70.82",
     "cdk8s-plus-34": "^2.0.35",
     "constructs": "^10.3.0",
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@cdk-x/cdk8s-core": "^0.0.1",
+    "@cdk-x/cdk8s-core": "^1.0.0",
     "cdk8s": "^2.70.82",
     "cdk8s-plus-34": "^2.0.35",
     "constructs": "^10.3.0"
   },
   "devDependencies": {
-    "@cdk-x/cdk8s-core": "0.0.1",
+    "@cdk-x/cdk8s-core": "^1.0.0",
     "cdk8s": "2.70.82",
     "cdk8s-plus-34": "2.0.35",
     "constructs": "10.3.0"
