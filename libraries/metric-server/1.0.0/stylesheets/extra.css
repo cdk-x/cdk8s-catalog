@@ -1,0 +1,34 @@
+/* Small, targeted overrides on top of Material's own theme — most of the
+   "modern" look comes from Material's built-in features (tabs, cards,
+   admonitions), not from custom CSS. */
+
+:root {
+  --md-primary-fg-color: #4f46e5;
+  --md-primary-fg-color--dark: #4338ca;
+  --md-accent-fg-color: #6366f1;
+}
+
+.md-typeset h1,
+.md-typeset h2 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset code {
+  border-radius: 4px;
+}
+
+.md-nav__title,
+.md-tabs__link {
+  font-weight: 600;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 8px;
+}
+
+.md-typeset table:not([class]) {
+  border-radius: 8px;
+  overflow: hidden;
+}
