@@ -128,10 +128,15 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # needs.version.outputs.projects is every affected project (including
+      # e2e projects and the docs-only catalog root) - intersect with
+      # --with-target so only the actual jsii libraries get compiled.
       - name: Compile and package jsii artifacts for every language
-        run: >
-          pnpm nx run-many -t jsii-package-all
-          ${{ needs.version.outputs.projects && format('-p {0}', needs.version.outputs.projects) || '' }}
+        run: |
+          projects=$(pnpm --silent nx show projects --json --with-target jsii-package-all ${{ needs.version.outputs.projects && format('-p {0}', needs.version.outputs.projects) || '' }} | jq -r 'join(",")')
+          if [ -n "$projects" ]; then
+            pnpm nx run-many -t jsii-package-all -p "$projects"
+          fi
 
       - uses: actions/upload-artifact@v7
         with:
