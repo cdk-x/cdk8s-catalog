@@ -93,6 +93,14 @@ jobs:
         id: resolve
         run: echo "libraries=$(node tools/list-docs-projects.mjs '${{ inputs.projects }}')" >> "$GITHUB_OUTPUT"
 
+      # Self-contained (doesn't rely on release.yml's build-jsii artifact,
+      # which doesn't exist on a standalone workflow_dispatch run) -
+      # docs-prepare-library.mjs turns this into per-language API pages, see
+      # tools/docs-prepare-library.mjs. run-many silently skips any project
+      # without a jsii-docs target.
+      - name: Build jsii API docs
+        run: pnpm nx run-many -t jsii-docs
+
       # Sequential on purpose - every library's mike deploy and the catalog's
       # own docs-deploy push to the same shared gh-pages branch; a parallel
       # matrix would race, same class of problem release.yml already solves

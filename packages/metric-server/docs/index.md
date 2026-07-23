@@ -2,6 +2,8 @@
 
 --8<-- "packages/metric-server/docs/_compat.md"
 
+--8<-- "packages/metric-server/docs/_lang-switcher.md"
+
 `@cdk-x/metric-server` deploys the Kubernetes
 [metrics-server](https://github.com/kubernetes-sigs/metrics-server) — the
 `ServiceAccount`, RBAC (`ClusterRole`s/`ClusterRoleBinding`s/`RoleBinding`),
