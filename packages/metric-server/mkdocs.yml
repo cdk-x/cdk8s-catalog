@@ -14,3 +14,9 @@ extra:
 
 nav:
   - index.md
+  - API Reference:
+      - TypeScript: api/typescript.md
+      - Python: api/python.md
+      - Java: api/java.md
+      - C#: api/csharp.md
+      - Go: api/go.md

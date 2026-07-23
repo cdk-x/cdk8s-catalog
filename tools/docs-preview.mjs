@@ -22,6 +22,11 @@ mkdirSync(PREVIEW_DIR, { recursive: true });
 console.log('Building catalog...');
 execFileSync('mkdocs', ['build', '--strict', '--site-dir', PREVIEW_DIR], { stdio: 'inherit' });
 
+// So docs-prepare-library.mjs always finds dist-jsii/docs, whether or not
+// it's already been built - run-many silently skips any project without a
+// jsii-docs target.
+execFileSync('pnpm', ['nx', 'run-many', '-t', 'jsii-docs'], { stdio: 'inherit' });
+
 execFileSync('node', ['tools/docs-prepare-library.mjs'], { stdio: 'inherit' });
 
 for (const name of readdirSync('packages')) {
