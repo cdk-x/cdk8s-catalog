@@ -13,7 +13,8 @@ extra:
     default: latest
 
 nav:
-  - index.md
+  - Home: https://cdk-x.github.io/cdk8s-catalog/
+  - cdk8s Core: index.md
   - CatalogChart: catalog-chart.md
   - API Reference:
       - TypeScript: api/typescript.md

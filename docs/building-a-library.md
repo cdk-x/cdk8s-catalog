@@ -174,7 +174,9 @@ pnpm nx lint  <library>    # eslint, incl. @nx/dependency-checks
 Every library gets its own versioned docs site (mirror `packages/metric-server/`):
 
 1. `packages/<library>/mkdocs.yml` (`INHERIT: ../../mkdocs.yml`, own `site_name`/
-   `site_url`/`edit_uri`, `extra.version.provider: mike`, and a `nav:` listing
+   `site_url`/`edit_uri`, `extra.version.provider: mike`, and a `nav:` starting
+   with `- Home: https://cdk-x.github.io/cdk8s-catalog/` — each library's site
+   is a separate mkdocs build with no other way back to the catalog root — then
    `index.md`).
 2. `packages/<library>/docs/index.md` — the intro (install command, usage
    example, what it creates). Include `_compat.md` and `_lang-switcher.md` near

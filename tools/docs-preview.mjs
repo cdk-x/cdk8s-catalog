@@ -15,6 +15,24 @@ import { join, resolve } from 'node:path';
 // same repo-root-relative preview tree.
 const PREVIEW_DIR = resolve('.docs-preview');
 const PORT = 8000;
+const LOCAL_URL = `http://localhost:${PORT}/`;
+
+// Each library's mkdocs.yml links back to the catalog root (e.g. the "Home"
+// nav item) via this real, absolute production URL - it has to be absolute
+// since it points at a completely separate mkdocs build. Read it once here
+// so it can be rewritten to LOCAL_URL in every generated page below, or
+// clicking "Home" during a local preview would leave localhost entirely.
+const ROOT_SITE_URL = readFileSync('mkdocs.yml', 'utf-8').match(/^site_url:\s*(\S+)/m)[1];
+
+function rewriteRootUrlToLocal(dir) {
+  for (const entry of readdirSync(dir, { withFileTypes: true, recursive: true })) {
+    if (!entry.isFile() || !entry.name.endsWith('.html')) continue;
+    const path = join(entry.parentPath ?? entry.path, entry.name);
+    const html = readFileSync(path, 'utf-8');
+    const rewritten = html.split(ROOT_SITE_URL).join(LOCAL_URL);
+    if (rewritten !== html) writeFileSync(path, rewritten);
+  }
+}
 
 rmSync(PREVIEW_DIR, { recursive: true, force: true });
 mkdirSync(PREVIEW_DIR, { recursive: true });
@@ -45,6 +63,7 @@ for (const name of readdirSync('packages')) {
   execFileSync('mkdocs', ['build', '--strict', '--config-file', configFile, '--site-dir', versionDir], {
     stdio: 'inherit',
   });
+  rewriteRootUrlToLocal(versionDir);
 
   cpSync(versionDir, join(libraryDir, 'latest'), { recursive: true });
   writeFileSync(
