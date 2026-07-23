@@ -118,6 +118,24 @@
         "cwd": "packages/cdk8s-core",
         "command": "publib-golang dist-jsii/go"
       }
+    },
+    "docs-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-prepare-library.mjs && mkdocs build --config-file packages/cdk8s-core/mkdocs.yml --strict"
+      }
+    },
+    "docs-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-prepare-library.mjs && mkdocs serve --config-file packages/cdk8s-core/mkdocs.yml"
+      }
+    },
+    "docs-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/docs-deploy-library.mjs cdk8s-core"
+      }
     }
   }
 }

@@ -1,4 +1,8 @@
-# Core
+# cdk8s Core
+
+--8<-- "packages/cdk8s-core/docs/_compat.md"
+
+--8<-- "packages/cdk8s-core/docs/_lang-switcher.md"
 
 `@cdk-x/cdk8s-core` is the shared foundation every catalog library is built
 on. It doesn't model any specific application — it provides the handful of
@@ -24,6 +28,6 @@ catalog library and comes along for the ride.
 
 ## Authoring a new library
 
-See [Building a library](building-a-library.md) for the full pattern (folder
-layout, construct design, testing) that every library in this catalog
-follows.
+See [Building a library](https://cdk-x.github.io/cdk8s-catalog/building-a-library/)
+in the main catalog docs for the full pattern (folder layout, construct
+design, testing) that every library in this catalog follows.
