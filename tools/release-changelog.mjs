@@ -20,6 +20,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { nxJson } from './nx-json.mjs';
 
 const rawArgs = process.argv.slice(2);
 const projectsArg = rawArgs.find((arg) => arg.startsWith('--projects='));
@@ -32,16 +33,12 @@ const filter = projectsArg
   : [];
 const extraArgs = rawArgs.filter((arg) => arg !== projectsArg);
 
-const projects = JSON.parse(
-  execFileSync('pnpm', ['nx', 'show', 'projects', '--json', '--with-target', 'nx-release-publish'], {
-    encoding: 'utf-8',
-  }),
-).filter((project) => filter.length === 0 || filter.includes(project));
+const projects = nxJson(['show', 'projects', '--with-target', 'nx-release-publish']).filter(
+  (project) => filter.length === 0 || filter.includes(project),
+);
 
 for (const project of projects) {
-  const { root } = JSON.parse(
-    execFileSync('pnpm', ['nx', 'show', 'project', project, '--json'], { encoding: 'utf-8' }),
-  );
+  const { root } = nxJson(['show', 'project', project]);
   const { version } = JSON.parse(readFileSync(join(root, 'package.json'), 'utf-8'));
 
   execFileSync(

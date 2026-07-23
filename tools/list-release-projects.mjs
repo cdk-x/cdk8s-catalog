@@ -9,23 +9,19 @@
 // "@cdk-x/metric-server") to filter down to - mirrors the `projects`
 // workflow_dispatch input, so a first-release run can target just the new
 // library instead of every project with a jsii-publish-npm target.
-import { execFileSync } from 'node:child_process';
+import { nxJson } from './nx-json.mjs';
 
 const filter = (process.argv[2] ?? '')
   .split(/[\s,]+/)
   .map((name) => name.trim())
   .filter(Boolean);
 
-const projects = JSON.parse(
-  execFileSync('pnpm', ['nx', 'show', 'projects', '--json', '--with-target', 'jsii-publish-npm'], {
-    encoding: 'utf-8',
-  }),
-).filter((project) => filter.length === 0 || filter.includes(project));
+const projects = nxJson(['show', 'projects', '--with-target', 'jsii-publish-npm']).filter(
+  (project) => filter.length === 0 || filter.includes(project),
+);
 
 const result = projects.map((project) => {
-  const { root } = JSON.parse(
-    execFileSync('pnpm', ['nx', 'show', 'project', project, '--json'], { encoding: 'utf-8' }),
-  );
+  const { root } = nxJson(['show', 'project', project]);
   return { name: root.split('/').pop(), root };
 });
 
