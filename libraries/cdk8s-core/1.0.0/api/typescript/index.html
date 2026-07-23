@@ -1,0 +1,2488 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="@cdk-x/cdk8s-core - the shared foundation every catalog library is built on.">
+      
+      
+      
+        <link rel="canonical" href="https://cdk-x.github.io/cdk8s-catalog/libraries/cdk8s-core/1.0.0/api/typescript/">
+      
+      
+        <link rel="prev" href="../../catalog-chart/">
+      
+      
+        <link rel="next" href="../python/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>TypeScript - cdk8s Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="cdk8s Core" class="md-header__button md-logo" aria-label="cdk8s Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            cdk8s Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TypeScript
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cdk-x/cdk8s-catalog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cdk-x/cdk8s-catalog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://cdk-x.github.io/cdk8s-catalog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  cdk8s Core
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../catalog-chart/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  CatalogChart
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="cdk8s Core" class="md-nav__button md-logo" aria-label="cdk8s Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    cdk8s Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cdk-x/cdk8s-catalog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cdk-x/cdk8s-catalog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://cdk-x.github.io/cdk8s-catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cdk8s Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog-chart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CatalogChart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Constructs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogchart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CatalogChart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CatalogChart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initializers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initializers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scoperequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scopeRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        idRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propsoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        propsOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tostring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        toString
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adddependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        addDependency
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="addDependency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependenciesrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dependenciesRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generateobjectname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generateObjectName
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generateObjectName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apiobjectrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apiObjectRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tojson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        toJson
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isconstruct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isConstruct
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="isConstruct">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        xRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ischart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isChart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="isChart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xrequired_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        xRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#of" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        of
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="of">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#noderequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nodeRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apiobjectsrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apiObjectsRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelsrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        labelsRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaceoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        namespaceOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#releasenamerequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        releaseNameRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogchartprops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CatalogChartProps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CatalogChartProps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initializer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disableresourcenamehashesoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disableResourceNameHashesOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelsoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        labelsOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaceoptional_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        namespaceOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#appnameoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        appNameOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#appversionoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        appVersionOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cataloglibraryoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        catalogLibraryOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contextoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        contextOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partofoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        partOfOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#releasenameoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        releaseNameOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cataloglibraryinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CatalogLibraryInfo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CatalogLibraryInfo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializer_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initializer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namerequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nameRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versionrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        versionRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csharp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C#
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Go
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Constructs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogchart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CatalogChart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CatalogChart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initializers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initializers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scoperequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scopeRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        idRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propsoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        propsOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tostring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        toString
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adddependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        addDependency
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="addDependency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependenciesrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dependenciesRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generateobjectname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generateObjectName
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generateObjectName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apiobjectrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apiObjectRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tojson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        toJson
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isconstruct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isConstruct
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="isConstruct">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        xRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ischart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isChart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="isChart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xrequired_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        xRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#of" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        of
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="of">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#noderequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nodeRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apiobjectsrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apiObjectsRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelsrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        labelsRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaceoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        namespaceOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#releasenamerequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        releaseNameRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogchartprops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CatalogChartProps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CatalogChartProps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initializer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disableresourcenamehashesoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disableResourceNameHashesOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelsoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        labelsOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaceoptional_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        namespaceOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#appnameoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        appNameOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#appversionoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        appVersionOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cataloglibraryoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        catalogLibraryOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contextoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        contextOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partofoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        partOfOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#releasenameoptional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        releaseNameOptional
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cataloglibraryinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CatalogLibraryInfo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CatalogLibraryInfo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializer_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initializer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namerequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nameRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versionrequired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        versionRequired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/cdk-x/cdk8s-catalog/edit/main/packages/cdk8s-core/docs/api/typescript.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="api-reference">API Reference <a name="API Reference" id="api-reference"></a><a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p><a href="../python/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89"/></svg></span> Python</a> · <a href="../java/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 6.08s-6.84 1.71-3.56 5.48c.97 1.11-.25 2.11-.25 2.11s2.45-1.25 1.31-2.85c-1.06-1.47-1.86-2.2 2.5-4.74m-4.47 1.2C16.08 4.08 14 2 14 2c.84 3.3-2.96 4.3-4.33 6.36-.94 1.4.46 2.91 2.33 4.64-.71-1.7-3.22-3.16.03-5.72M9.37 17.47c-3.08.86 1.88 2.63 5.79.96-.38-.15-.75-.33-1.1-.54-1.36.31-2.76.37-4.14.18-1.31-.16-.55-.6-.55-.6m5.32-1.68c-1.75.38-3.56.47-5.34.26-1.31-.13-.45-.77-.45-.77-3.4 1.13 1.88 2.4 6.6 1.02-.29-.11-.57-.3-.81-.51m3.42 3.3s.57.47-.61.83c-2.28.68-9.43.89-11.41.03-.71-.31.63-.74 1.05-.83.23-.06.46-.08.69-.08-.79-.54-5.13 1.1-2.19 1.56 7.97 1.3 14.54-.6 12.47-1.51m-2.74-4.86c.29-.19.6-.35.92-.49 0 0-1.51.26-3.02.4-1.6.16-3.21.18-4.81.06-2.35-.31 1.29-1.2 1.29-1.2-1.1 0-2.18.26-3.16.75-2.05 1 5.1 1.45 8.78.48m.9 2.42c-.02.04-.04.07-.08.1 5.01-1.31 3.17-4.64.77-3.81-.13.06-.24.14-.31.25.14-.05.28-.09.43-.12 1.2-.24 2.92 1.63-.81 3.58m.13 4.61c-3.01.52-6.09.56-9.12.14 0 0 .46.38 2.81.53 3.6.23 9.13-.13 9.26-1.83.03.01-.23.65-2.95 1.16"/></svg></span> Java</a> · <a href="../csharp/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m11.5 15.97.41 2.44c-.26.14-.68.27-1.24.39-.57.13-1.24.2-2.01.2-2.21-.04-3.87-.7-4.98-1.96Q2 15.135 2 12.21c.05-2.31.72-4.08 2-5.32C5.32 5.64 6.96 5 8.94 5c.75 0 1.4.07 1.94.19s.94.25 1.2.4l-.58 2.49-1.06-.34c-.4-.1-.86-.15-1.39-.15-1.16-.01-2.12.36-2.87 1.1-.76.73-1.15 1.85-1.18 3.34 0 1.36.37 2.42 1.08 3.2.71.77 1.71 1.17 2.99 1.18l1.33-.12c.43-.08.79-.19 1.1-.32M13.89 19l.61-4H13l.34-2h1.5l.32-2h-1.5L14 9h1.5l.61-4h2l-.61 4h1l.61-4h2l-.61 4H22l-.34 2h-1.5l-.32 2h1.5L21 15h-1.5l-.61 4h-2l.61-4h-1l-.61 4zm2.95-6h1l.32-2h-1z"/></svg></span> C#</a> · <a href="../go/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m2.64 10.33-.02-.06.22-.27.12-.08H6.8l.03.08-.18.26-.11.06zm-1.61.98L1 11.26l.22-.29.12-.06h4.9l.05.09-.08.24-.1.07zm2.6.99-.04-.06.16-.28.1-.06H6l.07.07-.02.25-.08.08zm11.15-2.16-1.78.47c-.19.04-.2.05-.34-.11-.16-.18-.27-.29-.5-.4-.66-.34-1.33-.24-1.94.15-.72.48-1.11 1.17-1.1 2.05.01.86.6 1.57 1.45 1.7.73.09 1.34-.17 1.83-.72l.29-.39h-2.07c-.22 0-.27-.14-.2-.32l.55-1.18c.03-.06.11-.17.27-.17h3.44c.15-.5.41-.96.75-1.41.78-1.03 1.73-1.57 3-1.81 1.07-.18 2.13-.07 3.07.57.84.58 1.37 1.36 1.5 2.39.19 1.45-.24 2.63-1.24 3.65-.71.72-1.58 1.17-2.57 1.39l-.86.08c-.98-.02-1.87-.3-2.62-.95-.52-.45-.88-.99-1.06-1.63-.15.24-.27.47-.44.7-.77 1.02-1.78 1.65-3.06 1.8-1.05.16-2.03-.05-2.89-.69-.79-.6-1.26-1.4-1.36-2.39-.14-1.17.2-2.22.91-3.14.76-1 1.77-1.63 3.01-1.86 1-.18 1.97-.06 2.84.52.57.38.97.9 1.24 1.52q.06.135-.12.18m6.11 1.6-.03-.36c-.19-1.06-1.17-1.66-2.19-1.43-1.01.22-1.67.85-1.88 1.86-.19.84.21 1.69.98 2.03.59.26 1.19.22 1.76-.06.84-.43 1.31-1.12 1.36-2.04"/></svg></span> Go</a></p>
+<h2 id="constructs">Constructs <a name="Constructs" id="Constructs"></a><a class="headerlink" href="#constructs" title="Permanent link">&para;</a></h2>
+<h3 id="catalogchart">CatalogChart <a name="CatalogChart" id="@cdk-x/cdk8s-core.CatalogChart"></a><a class="headerlink" href="#catalogchart" title="Permanent link">&para;</a></h3>
+<p>Base class for all catalog charts.</p>
+<p>Carries a <code>releaseName</code> that sub-constructs
+can read via <code>this.node.tryGetContext('releaseName')</code> instead of threading it
+through every constructor prop.</p>
+<p>Also applies the Kubernetes recommended common labels ({@link CommonLabels}) at
+the chart level — cdk8s merges <code>Chart.labels</code> into every <code>ApiObject</code>'s own
+<code>metadata.labels</code> automatically, so every resource under this chart gets them
+for free. <code>app.kubernetes.io/component</code> is deliberately not included here since
+it varies per resource — add it directly on the resource that needs it via
+<code>metadata.addLabel(CommonLabels.COMPONENT, ...)</code>.</p>
+<h4 id="initializers">Initializers <a name="Initializers" id="@cdk-x/cdk8s-core.CatalogChart.Initializer"></a><a class="headerlink" href="#initializers" title="Permanent link">&para;</a></h4>
+<p>```typescript
+import { CatalogChart } from '@cdk-x/cdk8s-core'</p>
+<p>new CatalogChart(scope: Construct, id: string, props?: CatalogChartProps)
+```</p>
+<table>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.Initializer.parameter.scope">scope</a></code></td>
+<td><code>constructs.Construct</code></td>
+<td><em>No description.</em></td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.Initializer.parameter.id">id</a></code></td>
+<td><code>string</code></td>
+<td><em>No description.</em></td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.Initializer.parameter.props">props</a></code></td>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps">CatalogChartProps</a></code></td>
+<td><em>No description.</em></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h5 id="scoperequired"><code>scope</code><sup>Required</sup> <a name="scope" id="@cdk-x/cdk8s-core.CatalogChart.Initializer.parameter.scope"></a><a class="headerlink" href="#scoperequired" title="Permanent link">&para;</a></h5>
+<ul>
+<li><em>Type:</em> constructs.Construct</li>
+</ul>
+<hr />
+<h5 id="idrequired"><code>id</code><sup>Required</sup> <a name="id" id="@cdk-x/cdk8s-core.CatalogChart.Initializer.parameter.id"></a><a class="headerlink" href="#idrequired" title="Permanent link">&para;</a></h5>
+<ul>
+<li><em>Type:</em> string</li>
+</ul>
+<hr />
+<h5 id="propsoptional"><code>props</code><sup>Optional</sup> <a name="props" id="@cdk-x/cdk8s-core.CatalogChart.Initializer.parameter.props"></a><a class="headerlink" href="#propsoptional" title="Permanent link">&para;</a></h5>
+<ul>
+<li><em>Type:</em> <a href="#@cdk-x/cdk8s-core.CatalogChartProps">CatalogChartProps</a></li>
+</ul>
+<hr />
+<h4 id="methods">Methods <a name="Methods" id="Methods"></a><a class="headerlink" href="#methods" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.toString">toString</a></code></td>
+<td>Returns a string representation of this construct.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.addDependency">addDependency</a></code></td>
+<td>Create a dependency between this Chart and other constructs.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.generateObjectName">generateObjectName</a></code></td>
+<td>Generates a app-unique name for an object given it's construct node path.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.toJson">toJson</a></code></td>
+<td>Renders this chart to a set of Kubernetes JSON resources.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h5 id="tostring"><code>toString</code> <a name="toString" id="@cdk-x/cdk8s-core.CatalogChart.toString"></a><a class="headerlink" href="#tostring" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public toString(): string</code></p>
+<p>Returns a string representation of this construct.</p>
+<h5 id="adddependency"><code>addDependency</code> <a name="addDependency" id="@cdk-x/cdk8s-core.CatalogChart.addDependency"></a><a class="headerlink" href="#adddependency" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public addDependency(dependencies: ...IConstruct[]): void</code></p>
+<p>Create a dependency between this Chart and other constructs.</p>
+<p>These can be other ApiObjects, Charts, or custom.</p>
+<h6 id="dependenciesrequired"><code>dependencies</code><sup>Required</sup> <a name="dependencies" id="@cdk-x/cdk8s-core.CatalogChart.addDependency.parameter.dependencies"></a><a class="headerlink" href="#dependenciesrequired" title="Permanent link">&para;</a></h6>
+<ul>
+<li><em>Type:</em> ...constructs.IConstruct[]</li>
+</ul>
+<p>the dependencies to add.</p>
+<hr />
+<h5 id="generateobjectname"><code>generateObjectName</code> <a name="generateObjectName" id="@cdk-x/cdk8s-core.CatalogChart.generateObjectName"></a><a class="headerlink" href="#generateobjectname" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public generateObjectName(apiObject: ApiObject): string</code></p>
+<p>Generates a app-unique name for an object given it's construct node path.</p>
+<p>Different resource types may have different constraints on names
+(<code>metadata.name</code>). The previous version of the name generator was
+compatible with DNS_SUBDOMAIN but not with DNS_LABEL.</p>
+<p>For example, <code>Deployment</code> names must comply with DNS_SUBDOMAIN while
+<code>Service</code> names must comply with DNS_LABEL.</p>
+<p>Since there is no formal specification for this, the default name
+generation scheme for kubernetes objects in cdk8s was changed to DNS_LABEL,
+since it’s the common denominator for all kubernetes resources
+(supposedly).</p>
+<p>You can override this method if you wish to customize object names at the
+chart level.</p>
+<h6 id="apiobjectrequired"><code>apiObject</code><sup>Required</sup> <a name="apiObject" id="@cdk-x/cdk8s-core.CatalogChart.generateObjectName.parameter.apiObject"></a><a class="headerlink" href="#apiobjectrequired" title="Permanent link">&para;</a></h6>
+<ul>
+<li><em>Type:</em> cdk8s.ApiObject</li>
+</ul>
+<p>The API object to generate a name for.</p>
+<hr />
+<h5 id="tojson"><code>toJson</code> <a name="toJson" id="@cdk-x/cdk8s-core.CatalogChart.toJson"></a><a class="headerlink" href="#tojson" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public toJson(): any[]</code></p>
+<p>Renders this chart to a set of Kubernetes JSON resources.</p>
+<h4 id="static-functions">Static Functions <a name="Static Functions" id="Static Functions"></a><a class="headerlink" href="#static-functions" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.isConstruct">isConstruct</a></code></td>
+<td>Checks if <code>x</code> is a construct.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.isChart">isChart</a></code></td>
+<td>Return whether the given object is a Chart.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.of">of</a></code></td>
+<td>Finds the chart in which a node is defined.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h5 id="isconstruct"><code>isConstruct</code> <a name="isConstruct" id="@cdk-x/cdk8s-core.CatalogChart.isConstruct"></a><a class="headerlink" href="#isconstruct" title="Permanent link">&para;</a></h5>
+<p>```typescript
+import { CatalogChart } from '@cdk-x/cdk8s-core'</p>
+<p>CatalogChart.isConstruct(x: any)
+```</p>
+<p>Checks if <code>x</code> is a construct.</p>
+<p>Use this method instead of <code>instanceof</code> to properly detect <code>Construct</code>
+instances, even when the construct library is symlinked.</p>
+<p>Explanation: in JavaScript, multiple copies of the <code>constructs</code> library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class <code>Construct</code> in each copy of the <code>constructs</code> library
+is seen as a different class, and an instance of one class will not test as
+<code>instanceof</code> the other class. <code>npm install</code> will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the <code>constructs</code>
+library can be accidentally installed, and <code>instanceof</code> will behave
+unpredictably. It is safest to avoid using <code>instanceof</code>, and using
+this type-testing method instead.</p>
+<h6 id="xrequired"><code>x</code><sup>Required</sup> <a name="x" id="@cdk-x/cdk8s-core.CatalogChart.isConstruct.parameter.x"></a><a class="headerlink" href="#xrequired" title="Permanent link">&para;</a></h6>
+<ul>
+<li><em>Type:</em> any</li>
+</ul>
+<p>Any object.</p>
+<hr />
+<h5 id="ischart"><code>isChart</code> <a name="isChart" id="@cdk-x/cdk8s-core.CatalogChart.isChart"></a><a class="headerlink" href="#ischart" title="Permanent link">&para;</a></h5>
+<p>```typescript
+import { CatalogChart } from '@cdk-x/cdk8s-core'</p>
+<p>CatalogChart.isChart(x: any)
+```</p>
+<p>Return whether the given object is a Chart.</p>
+<p>We do attribute detection since we can't reliably use 'instanceof'.</p>
+<h6 id="xrequired_1"><code>x</code><sup>Required</sup> <a name="x" id="@cdk-x/cdk8s-core.CatalogChart.isChart.parameter.x"></a><a class="headerlink" href="#xrequired_1" title="Permanent link">&para;</a></h6>
+<ul>
+<li><em>Type:</em> any</li>
+</ul>
+<hr />
+<h5 id="of"><code>of</code> <a name="of" id="@cdk-x/cdk8s-core.CatalogChart.of"></a><a class="headerlink" href="#of" title="Permanent link">&para;</a></h5>
+<p>```typescript
+import { CatalogChart } from '@cdk-x/cdk8s-core'</p>
+<p>CatalogChart.of(c: IConstruct)
+```</p>
+<p>Finds the chart in which a node is defined.</p>
+<h6 id="crequired"><code>c</code><sup>Required</sup> <a name="c" id="@cdk-x/cdk8s-core.CatalogChart.of.parameter.c"></a><a class="headerlink" href="#crequired" title="Permanent link">&para;</a></h6>
+<ul>
+<li><em>Type:</em> constructs.IConstruct</li>
+</ul>
+<p>a construct node.</p>
+<hr />
+<h4 id="properties">Properties <a name="Properties" id="Properties"></a><a class="headerlink" href="#properties" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.property.node">node</a></code></td>
+<td><code>constructs.Node</code></td>
+<td>The tree node.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.property.apiObjects">apiObjects</a></code></td>
+<td><code>cdk8s.ApiObject[]</code></td>
+<td>Returns all the included API objects.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.property.labels">labels</a></code></td>
+<td><code>{[ key: string ]: string}</code></td>
+<td>Labels applied to all resources in this chart.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.property.namespace">namespace</a></code></td>
+<td><code>string</code></td>
+<td>The default namespace for all objects in this chart.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChart.property.releaseName">releaseName</a></code></td>
+<td><code>string</code></td>
+<td>Release name that propagates to all sub-constructs in this chart.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h5 id="noderequired"><code>node</code><sup>Required</sup> <a name="node" id="@cdk-x/cdk8s-core.CatalogChart.property.node"></a><a class="headerlink" href="#noderequired" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly node: Node;</code></p>
+<ul>
+<li><em>Type:</em> constructs.Node</li>
+</ul>
+<p>The tree node.</p>
+<hr />
+<h5 id="apiobjectsrequired"><code>apiObjects</code><sup>Required</sup> <a name="apiObjects" id="@cdk-x/cdk8s-core.CatalogChart.property.apiObjects"></a><a class="headerlink" href="#apiobjectsrequired" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly apiObjects: ApiObject[];</code></p>
+<ul>
+<li><em>Type:</em> cdk8s.ApiObject[]</li>
+</ul>
+<p>Returns all the included API objects.</p>
+<hr />
+<h5 id="labelsrequired"><code>labels</code><sup>Required</sup> <a name="labels" id="@cdk-x/cdk8s-core.CatalogChart.property.labels"></a><a class="headerlink" href="#labelsrequired" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly labels: {[ key: string ]: string};</code></p>
+<ul>
+<li><em>Type:</em> {[ key: string ]: string}</li>
+</ul>
+<p>Labels applied to all resources in this chart.</p>
+<p>This is an immutable copy.</p>
+<hr />
+<h5 id="namespaceoptional"><code>namespace</code><sup>Optional</sup> <a name="namespace" id="@cdk-x/cdk8s-core.CatalogChart.property.namespace"></a><a class="headerlink" href="#namespaceoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly namespace: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+</ul>
+<p>The default namespace for all objects in this chart.</p>
+<hr />
+<h5 id="releasenamerequired"><code>releaseName</code><sup>Required</sup> <a name="releaseName" id="@cdk-x/cdk8s-core.CatalogChart.property.releaseName"></a><a class="headerlink" href="#releasenamerequired" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly releaseName: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+</ul>
+<p>Release name that propagates to all sub-constructs in this chart.</p>
+<hr />
+<h2 id="structs">Structs <a name="Structs" id="Structs"></a><a class="headerlink" href="#structs" title="Permanent link">&para;</a></h2>
+<h3 id="catalogchartprops">CatalogChartProps <a name="CatalogChartProps" id="@cdk-x/cdk8s-core.CatalogChartProps"></a><a class="headerlink" href="#catalogchartprops" title="Permanent link">&para;</a></h3>
+<h4 id="initializer">Initializer <a name="Initializer" id="@cdk-x/cdk8s-core.CatalogChartProps.Initializer"></a><a class="headerlink" href="#initializer" title="Permanent link">&para;</a></h4>
+<p>```typescript
+import { CatalogChartProps } from '@cdk-x/cdk8s-core'</p>
+<p>const catalogChartProps: CatalogChartProps = { ... }
+```</p>
+<h4 id="properties_1">Properties <a name="Properties" id="Properties"></a><a class="headerlink" href="#properties_1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.disableResourceNameHashes">disableResourceNameHashes</a></code></td>
+<td><code>boolean</code></td>
+<td>The autogenerated resource name by default is suffixed with a stable hash of the construct path.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.labels">labels</a></code></td>
+<td><code>{[ key: string ]: string}</code></td>
+<td>Labels to apply to all resources in this chart.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.namespace">namespace</a></code></td>
+<td><code>string</code></td>
+<td>The default namespace for all objects defined in this chart (directly or indirectly).</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.appName">appName</a></code></td>
+<td><code>string</code></td>
+<td>app.kubernetes.io/name — the generic name of the application.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.appVersion">appVersion</a></code></td>
+<td><code>string</code></td>
+<td>app.kubernetes.io/version — the current version of the application.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.catalogLibrary">catalogLibrary</a></code></td>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogLibraryInfo">CatalogLibraryInfo</a></code></td>
+<td>The specific.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.context">context</a></code></td>
+<td><code>{[ key: string ]: string}</code></td>
+<td>Arbitrary key/value context injected into the construct tree via <code>node.setContext</code>, so any descendant construct can read it with <code>node.tryGetContext(key)</code> without needing a reference to this chart. <code>releaseName</code> is always injected under the key <code>"releaseName"</code> alongside whatever is provided here.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.partOf">partOf</a></code></td>
+<td><code>string</code></td>
+<td>app.kubernetes.io/part-of — name of a higher-level application this chart is part of.</td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogChartProps.property.releaseName">releaseName</a></code></td>
+<td><code>string</code></td>
+<td>A stable name for all resources in this chart — equivalent to Helm's .Release.Name / fullnameOverride.  Defaults to the construct id.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h5 id="disableresourcenamehashesoptional"><code>disableResourceNameHashes</code><sup>Optional</sup> <a name="disableResourceNameHashes" id="@cdk-x/cdk8s-core.CatalogChartProps.property.disableResourceNameHashes"></a><a class="headerlink" href="#disableresourcenamehashesoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly disableResourceNameHashes: boolean;</code></p>
+<ul>
+<li><em>Type:</em> boolean</li>
+<li><em>Default:</em> false</li>
+</ul>
+<p>The autogenerated resource name by default is suffixed with a stable hash of the construct path.</p>
+<p>Setting this property to true drops the hash suffix.</p>
+<hr />
+<h5 id="labelsoptional"><code>labels</code><sup>Optional</sup> <a name="labels" id="@cdk-x/cdk8s-core.CatalogChartProps.property.labels"></a><a class="headerlink" href="#labelsoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly labels: {[ key: string ]: string};</code></p>
+<ul>
+<li><em>Type:</em> {[ key: string ]: string}</li>
+<li><em>Default:</em> no common labels</li>
+</ul>
+<p>Labels to apply to all resources in this chart.</p>
+<hr />
+<h5 id="namespaceoptional_1"><code>namespace</code><sup>Optional</sup> <a name="namespace" id="@cdk-x/cdk8s-core.CatalogChartProps.property.namespace"></a><a class="headerlink" href="#namespaceoptional_1" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly namespace: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+<li><em>Default:</em> no namespace is synthesized (usually this implies "default")</li>
+</ul>
+<p>The default namespace for all objects defined in this chart (directly or indirectly).</p>
+<p>This namespace will only apply to objects that don't have a
+<code>namespace</code> explicitly defined for them.</p>
+<hr />
+<h5 id="appnameoptional"><code>appName</code><sup>Optional</sup> <a name="appName" id="@cdk-x/cdk8s-core.CatalogChartProps.property.appName"></a><a class="headerlink" href="#appnameoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly appName: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+<li><em>Default:</em> the construct id (same default as releaseName)</li>
+</ul>
+<p>app.kubernetes.io/name — the generic name of the application.</p>
+<hr />
+<h5 id="appversionoptional"><code>appVersion</code><sup>Optional</sup> <a name="appVersion" id="@cdk-x/cdk8s-core.CatalogChartProps.property.appVersion"></a><a class="headerlink" href="#appversionoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly appVersion: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+<li><em>Default:</em> omitted when not provided</li>
+</ul>
+<p>app.kubernetes.io/version — the current version of the application.</p>
+<hr />
+<h5 id="cataloglibraryoptional"><code>catalogLibrary</code><sup>Optional</sup> <a name="catalogLibrary" id="@cdk-x/cdk8s-core.CatalogChartProps.property.catalogLibrary"></a><a class="headerlink" href="#cataloglibraryoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly catalogLibrary: CatalogLibraryInfo;</code></p>
+<ul>
+<li><em>Type:</em> <a href="#@cdk-x/cdk8s-core.CatalogLibraryInfo">CatalogLibraryInfo</a></li>
+<li><em>Default:</em> omitted when not provided</li>
+</ul>
+<p>The specific.</p>
+<hr />
+<h5 id="contextoptional"><code>context</code><sup>Optional</sup> <a name="context" id="@cdk-x/cdk8s-core.CatalogChartProps.property.context"></a><a class="headerlink" href="#contextoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly context: {[ key: string ]: string};</code></p>
+<ul>
+<li><em>Type:</em> {[ key: string ]: string}</li>
+<li><em>Default:</em> {}</li>
+</ul>
+<p>Arbitrary key/value context injected into the construct tree via <code>node.setContext</code>, so any descendant construct can read it with <code>node.tryGetContext(key)</code> without needing a reference to this chart. <code>releaseName</code> is always injected under the key <code>"releaseName"</code> alongside whatever is provided here.</p>
+<hr />
+<h5 id="partofoptional"><code>partOf</code><sup>Optional</sup> <a name="partOf" id="@cdk-x/cdk8s-core.CatalogChartProps.property.partOf"></a><a class="headerlink" href="#partofoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly partOf: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+<li><em>Default:</em> omitted when not provided</li>
+</ul>
+<p>app.kubernetes.io/part-of — name of a higher-level application this chart is part of.</p>
+<hr />
+<h5 id="releasenameoptional"><code>releaseName</code><sup>Optional</sup> <a name="releaseName" id="@cdk-x/cdk8s-core.CatalogChartProps.property.releaseName"></a><a class="headerlink" href="#releasenameoptional" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly releaseName: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+</ul>
+<p>A stable name for all resources in this chart — equivalent to Helm's .Release.Name / fullnameOverride.  Defaults to the construct id.</p>
+<hr />
+<h3 id="cataloglibraryinfo">CatalogLibraryInfo <a name="CatalogLibraryInfo" id="@cdk-x/cdk8s-core.CatalogLibraryInfo"></a><a class="headerlink" href="#cataloglibraryinfo" title="Permanent link">&para;</a></h3>
+<h4 id="initializer_1">Initializer <a name="Initializer" id="@cdk-x/cdk8s-core.CatalogLibraryInfo.Initializer"></a><a class="headerlink" href="#initializer_1" title="Permanent link">&para;</a></h4>
+<p>```typescript
+import { CatalogLibraryInfo } from '@cdk-x/cdk8s-core'</p>
+<p>const catalogLibraryInfo: CatalogLibraryInfo = { ... }
+```</p>
+<h4 id="properties_2">Properties <a name="Properties" id="Properties"></a><a class="headerlink" href="#properties_2" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogLibraryInfo.property.name">name</a></code></td>
+<td><code>string</code></td>
+<td><em>No description.</em></td>
+</tr>
+<tr>
+<td><code><a href="#@cdk-x/cdk8s-core.CatalogLibraryInfo.property.version">version</a></code></td>
+<td><code>string</code></td>
+<td><em>No description.</em></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h5 id="namerequired"><code>name</code><sup>Required</sup> <a name="name" id="@cdk-x/cdk8s-core.CatalogLibraryInfo.property.name"></a><a class="headerlink" href="#namerequired" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly name: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+</ul>
+<hr />
+<h5 id="versionrequired"><code>version</code><sup>Required</sup> <a name="version" id="@cdk-x/cdk8s-core.CatalogLibraryInfo.property.version"></a><a class="headerlink" href="#versionrequired" title="Permanent link">&para;</a></h5>
+<p><code>typescript
+public readonly version: string;</code></p>
+<ul>
+<li><em>Type:</em> string</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../catalog-chart/" class="md-footer__link md-footer__link--prev" aria-label="Previous: CatalogChart">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                CatalogChart
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../python/" class="md-footer__link md-footer__link--next" aria-label="Next: Python">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Python
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.instant", "navigation.instant.progress", "search.suggest", "search.highlight", "content.code.copy", "content.tabs.link", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
