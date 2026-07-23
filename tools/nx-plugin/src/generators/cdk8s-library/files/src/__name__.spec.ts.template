@@ -1,0 +1,11 @@
+import { Testing } from 'cdk8s';
+import { <%= className %> } from './<%= name %>.js';
+
+describe('<%= className %>', () => {
+  it('synthesizes', () => {
+    const chart = Testing.chart();
+    new <%= className %>(chart, '<%= className %>');
+
+    expect(Testing.synth(chart)).toMatchSnapshot();
+  });
+});

@@ -49,8 +49,8 @@
   "release": {
     "projectsRelationship": "independent",
     "version": {
-      "conventionalCommits": true,
       "preVersionCommand": "pnpm dlx nx run-many -t build --exclude=tag:e2e",
+      "conventionalCommits": true,
       "preserveMatchingDependencyRanges": false
     },
     "changelog": {
@@ -63,6 +63,11 @@
   "targetDefaults": {
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   }
 }

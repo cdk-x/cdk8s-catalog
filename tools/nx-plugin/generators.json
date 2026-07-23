@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "cdk8s-library": {
+      "factory": "./dist/generators/cdk8s-library/generator",
+      "schema": "./dist/generators/cdk8s-library/schema.json",
+      "description": "Scaffold a new cdk8s catalog library (jsii + mkdocs + per-kind construct layout)"
+    }
+  }
+}
