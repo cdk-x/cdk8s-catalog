@@ -77,13 +77,13 @@ jobs:
       # Same command, same result, whether this is a dry run or not - the
       # bump above always writes for real, so nx sees the same uncommitted
       # diff either way.
-      # Uses `pnpm exec nx` (not `pnpm nx`) - the latter routes through pnpm's
-      # own "run an unrecognized command as a workspace binary" resolution,
-      # which prints its own lockfile/supply-chain banner ahead of nx's real
-      # output and would corrupt the --json below.
+      # --silent (before `nx`, applies to pnpm itself) suppresses pnpm's own
+      # reporter, which otherwise prints a "Scope: all N workspace projects"
+      # line to stdout ahead of nx's real output on a fresh runner - see
+      # tools/nx-json.mjs for the same fix applied to the node scripts below.
       - name: Determine actually-affected projects
         id: affected
-        run: echo "projects=$(pnpm exec nx show projects --affected --json | jq -r 'join(",")')" >> "$GITHUB_OUTPUT"
+        run: echo "projects=$(pnpm --silent nx show projects --affected --json | jq -r 'join(",")')" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelogs, commit and tag per project
         run: >
