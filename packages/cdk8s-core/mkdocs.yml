@@ -1,0 +1,23 @@
+INHERIT: ../../mkdocs.yml
+
+site_name: cdk8s Core
+site_description: '@cdk-x/cdk8s-core - the shared foundation every catalog library is built on.'
+site_url: https://cdk-x.github.io/cdk8s-catalog/libraries/cdk8s-core/
+edit_uri: edit/main/packages/cdk8s-core/docs/
+
+docs_dir: docs
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+nav:
+  - index.md
+  - CatalogChart: catalog-chart.md
+  - API Reference:
+      - TypeScript: api/typescript.md
+      - Python: api/python.md
+      - Java: api/java.md
+      - C#: api/csharp.md
+      - Go: api/go.md

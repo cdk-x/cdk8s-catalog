@@ -79,8 +79,5 @@ plugins:
 
 nav:
   - Home: index.md
-  - Core:
-      - core/index.md
-      - CatalogChart: core/catalog-chart.md
-      - Building a library: core/building-a-library.md
+  - Building a library: building-a-library.md
   - Libraries: libraries/index.md
